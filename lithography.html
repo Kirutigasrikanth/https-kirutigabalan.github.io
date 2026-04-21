@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Process Development & Troubleshooting in Microfabrication | Kirutiga Balan</title>
+  <meta name="description" content="End-to-end microfluidic device fabrication via photolithography and soft lithography. DOE-driven troubleshooting of SU-8 mask delamination and PDMS–glass plasma bonding." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #11182d;
+      --panel-2: #151d35;
+      --text: #e9eefc;
+      --muted: #a6b0cf;
+      --line: rgba(255,255,255,0.08);
+      --accent: #8fb8ff;
+      --accent-2: #7ce2d3;
+      --maxw: 1180px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(143,184,255,0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(124,226,211,0.10), transparent 24%),
+        linear-gradient(180deg, #0b1020 0%, #0f1630 55%, #0b1020 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(var(--maxw), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(11, 16, 32, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+    .site-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 72px;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    .nav a:hover { color: white; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 72px 0 44px; }
+
+    .hero-copy,
+    .section-card,
+    .project-card,
+    .challenge,
+    .step-card,
+    .result-chip,
+    .takeaway-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy { padding: 38px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(143,184,255,0.25);
+      color: var(--accent);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      margin-bottom: 20px;
+      background: rgba(143,184,255,0.08);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      line-height: 1.02;
+      margin: 0 0 16px;
+      letter-spacing: -0.03em;
+    }
+
+    h2, h3, h4 { letter-spacing: -0.02em; }
+
+    .subtitle {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 64ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .stat span { color: var(--muted); font-size: 0.9rem; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(143,184,255,0.35);
+      background: rgba(143,184,255,0.10);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.20);
+    }
+    .button.primary {
+      background: linear-gradient(135deg, rgba(143,184,255,0.2), rgba(124,226,211,0.18));
+      border-color: rgba(143,184,255,0.22);
+    }
+
+    .hero-actions {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    /* ---------- Sections ---------- */
+    main section { padding: 22px 0 44px; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .section-head h2 {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      margin: 0;
+    }
+    .section-head p { color: var(--muted); margin: 0; max-width: 56ch; }
+
+    .section-card { padding: 28px; }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+    .section-card p { color: var(--muted); margin: 0 0 12px; }
+    .section-card p:last-child { margin-bottom: 0; }
+
+    /* ---------- Workflow steps ---------- */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .step-card { padding: 24px; }
+    .step-num {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-card h3 { margin: 0 0 12px; font-size: 1.15rem; }
+    .step-card ul {
+      margin: 0; padding-left: 18px;
+      color: var(--muted); font-size: 0.95rem;
+    }
+    .step-card li { margin-bottom: 6px; }
+
+    /* ---------- Challenge callout ---------- */
+    .challenge {
+      padding: 32px;
+      margin-top: 32px;
+      position: relative;
+      border-color: rgba(143,184,255,0.25);
+      background:
+        linear-gradient(180deg, rgba(143,184,255,0.06), rgba(124,226,211,0.03)),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+    .challenge-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(143,184,255,0.35);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+      background: rgba(143,184,255,0.10);
+    }
+    .challenge h3 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+    }
+    .challenge p { color: var(--muted); margin: 0 0 12px; }
+    .challenge-phase {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+    .challenge-phase h4 {
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+    .challenge-phase ul {
+      margin: 0; padding-left: 20px;
+      color: var(--muted);
+    }
+    .challenge-phase li { margin-bottom: 6px; }
+
+    /* ---------- DOE table ---------- */
+    .doe-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+    }
+    .doe-table th, .doe-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+    }
+    .doe-table th {
+      background: rgba(143,184,255,0.06);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .doe-table td { color: var(--muted); }
+    .doe-table td:first-child { color: var(--text); font-weight: 500; }
+    .doe-table tr:last-child td { border-bottom: none; }
+    .doe-caption { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+
+    /* ---------- Result chips ---------- */
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .result-chip { padding: 20px; }
+    .result-chip .k {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+    .result-chip .v {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- Tags ---------- */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .tag {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,0.035);
+      font-size: 0.84rem;
+    }
+
+    /* ---------- Takeaways ---------- */
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .takeaway-card { padding: 24px; }
+    .takeaway-card h3 {
+      font-size: 1.08rem;
+      margin: 0 0 10px;
+      color: var(--accent);
+    }
+    .takeaway-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      padding: 16px 0 48px;
+      color: var(--muted);
+      text-align: center;
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: white; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+      .workflow-grid,
+      .takeaway-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-meta { grid-template-columns: 1fr; }
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+    @media (max-width: 640px) {
+      .site-header-inner {
+        padding: 12px 0;
+        align-items: start;
+        flex-direction: column;
+      }
+      .hero-copy, .section-card, .challenge, .step-card { padding: 20px; }
+      h1 { line-height: 1.05; }
+    }
+
+    /* ---------- Entrance animation ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .step-card, .challenge, .section-card, .takeaway-card {
+        animation: fadeUp 0.6s ease both;
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <a class="brand" href="index.html">Kirutiga Balan</a>
+      <nav class="nav">
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-copy">
+          <div class="eyebrow">Microfabrication · Process Engineering · DOE</div>
+          <h1>Process Development &amp; Troubleshooting in Microfabrication</h1>
+          <p class="subtitle">
+            End-to-end development of microfluidic devices via photolithography and soft lithography,
+            with DOE-driven root-cause analysis to stabilize SU-8 masking and PDMS–glass bonding.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="Lithography.pdf" target="_blank" rel="noopener">View Slide Deck (PDF)</a>
+            <a class="button" href="index.html#research">← Back to Portfolio</a>
+          </div>
+          <div class="hero-meta">
+            <div class="stat"><strong>3+ years</strong><span>Cleanroom experience</span></div>
+            <div class="stat"><strong>10+ devices</strong><span>Photolithography fabrication</span></div>
+            <div class="stat"><strong>100+ devices</strong><span>Soft lithography fabrication</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section id="overview">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Overview</h2></div>
+          <p>Building microfluidic devices for controlled electrochemical experiments.</p>
+        </div>
+        <div class="section-card">
+          <p class="lead">
+            I designed and fabricated microfluidic cells to enable controlled electrochemical experiments —
+            most notably for electro-extraction of copper from dilute electrolyte, with in-situ optical
+            visualization of deposition patterns.
+          </p>
+          <p>
+            The work spanned two fabrication tracks: photolithography on glass for precision channels
+            requiring in-situ observation, and soft lithography with PDMS cast on 3D-printed molds for
+            rapid design iteration. Both tracks surfaced non-trivial process failures that required
+            structured DOE-based troubleshooting to resolve — the kind of work that translates directly
+            to wafer-scale fabrication.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photolithography -->
+    <section id="photolithography">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Track 1 — Photolithography</h2></div>
+          <p>Glass microfluidic cell with 10 µm channels for quasi-2D transport experiments.</p>
+        </div>
+
+        <div class="section-card">
+          <p>
+            The goal was a quasi-2D transport environment: a 10 µm-deep channel between copper electrodes
+            on a glass substrate, enabling 2D planar deposition and in-situ optical visualization of
+            dendrite growth.
+          </p>
+
+          <div class="workflow-grid">
+            <div class="step-card">
+              <div class="step-num">Step 01</div>
+              <h3>Spin Coating</h3>
+              <ul>
+                <li>Uniform SU-8 at 25 ± 3 µm target thickness</li>
+                <li>Thickness governed by t = kp² / w<sup>1/2</sup></li>
+                <li>Watchouts: edge bead, striations, non-uniformity</li>
+                <li>Soft bake to drive off solvent</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 02</div>
+              <h3>Mask Alignment &amp; Exposure</h3>
+              <ul>
+                <li>Negative photoresist (SU-8) on SUSS MA6</li>
+                <li>Nominal dose 240 mJ/cm², window ±10–15%</li>
+                <li>Soft contact mode for resolution</li>
+                <li>Process adapted for glass transmission differences</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 03</div>
+              <h3>Development + PEB</h3>
+              <ul>
+                <li>SU-8 developer → IPA rinse → N₂ dry</li>
+                <li>Temperature ramp and dwell time controlled</li>
+                <li>Failure modes: incomplete crosslinking, overbake distortion</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 04</div>
+              <h3>HF Etching</h3>
+              <ul>
+                <li>6% HF at 25 °C, ~0.6 µm/min etch rate</li>
+                <li>10 µm depth reached in ~17 min</li>
+                <li>Stopped by DI rinse; depth verified by profilometer</li>
+                <li>Failure modes: undercut, delamination, non-uniform depth</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Challenge 1 -->
+          <div class="challenge">
+            <span class="challenge-label">Technical Challenge</span>
+            <h3>SU-8 delamination during HF etch</h3>
+            <p>
+              SU-8 lift-off during HF exposure was causing widened channels, poor edge definition, and
+              loss of run-to-run repeatability. The target: eliminate delamination and achieve
+              <strong>&lt; 2 µm feature deviation</strong> with stable masking.
+            </p>
+
+            <div class="challenge-phase">
+              <h4>Hypotheses</h4>
+              <ul>
+                <li>Adhesion failure at the SU-8 / glass interface</li>
+                <li>Incomplete crosslinking of the resist</li>
+                <li>Limited mask durability under prolonged HF exposure</li>
+              </ul>
+            </div>
+
+            <div class="challenge-phase">
+              <h4>DOE — Factors Screened</h4>
+              <table class="doe-table">
+                <thead>
+                  <tr><th>Factor</th><th>Low</th><th>High</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Dehydration bake</td><td>10 min</td><td>20 min</td></tr>
+                  <tr><td>Exposure dose</td><td>220 mJ/cm²</td><td>260 mJ/cm²</td></tr>
+                  <tr><td>Hard bake temp</td><td>120 °C</td><td>150 °C</td></tr>
+                </tbody>
+              </table>
+              <p class="doe-caption">
+                Responses: delamination (pass/fail), channel depth (Dektak 6M profilometer),
+                feature integrity (Zeiss Axioscope 2 MAT optical microscope).
+              </p>
+            </div>
+
+            <div class="challenge-phase">
+              <h4>Findings</h4>
+              <ul>
+                <li>Adhesion had the strongest correlation with mask survival</li>
+                <li>Increased dehydration bake time reduced delamination</li>
+                <li>Higher-than-nominal exposure energy improved crosslinking</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag">SU-8</span>
+            <span class="tag">HF Etching</span>
+            <span class="tag">DOE</span>
+            <span class="tag">Profilometry</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Soft lithography -->
+    <section id="soft-lithography">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Track 2 — Soft Lithography</h2></div>
+          <p>PDMS cast on 3D-printed molds for rapid prototyping and flow studies.</p>
+        </div>
+
+        <div class="section-card">
+          <p>
+            For rapid prototyping, I developed a PDMS-based process using 3D-printed molds to study the
+            effect of flow parameters on extraction efficiency. Channel depth of 10 µm was maintained
+            using SLA 3D printing with a resin and printer rated to 1 µm resolution.
+          </p>
+
+          <div class="workflow-grid">
+            <div class="step-card">
+              <div class="step-num">Step 01</div>
+              <h3>Design &amp; Print Mold</h3>
+              <ul>
+                <li>Geometry designed in CAD</li>
+                <li>SLA printed at 1 µm resolution</li>
+                <li>Includes slots for channel and electrodes</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 02</div>
+              <h3>Cast &amp; Cure PDMS</h3>
+              <ul>
+                <li>PDMS poured onto mold, degassed under vacuum</li>
+                <li>Controlled curing to maintain dimensional fidelity</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 03</div>
+              <h3>Plasma Bonding to Glass</h3>
+              <ul>
+                <li>March RIE plasma etcher</li>
+                <li>RF 105 W, 30% O₂, tuned pressure and time</li>
+                <li>Surface activation via Si–OH generation</li>
+              </ul>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Step 04</div>
+              <h3>Leak Testing</h3>
+              <ul>
+                <li>Flow validation of bonded device</li>
+                <li>Go / no-go gate before electrochemical testing</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Challenge 2 -->
+          <div class="challenge">
+            <span class="challenge-label">Technical Challenge</span>
+            <h3>PDMS–glass bonding failure at 60 s plasma exposure</h3>
+            <p>
+              Devices were failing leak tests — weak adhesion and visible leakage after 60 s of O₂
+              plasma. The working hypothesis: prolonged exposure was over-oxidizing the surface and
+              collapsing the effective density of Si–OH bonding sites.
+            </p>
+
+            <div class="challenge-phase">
+              <h4>Approach</h4>
+              <ul>
+                <li>Systematically reduced plasma exposure time from 60 s → 20 s</li>
+                <li>Evaluated bond quality across the sweep</li>
+                <li>Isolated a stable window at <strong>22 ± 2 s</strong></li>
+              </ul>
+            </div>
+
+            <div class="challenge-phase">
+              <h4>Outcome</h4>
+              <div class="results">
+                <div class="result-chip">
+                  <span class="k">22 ± 2 s</span>
+                  <span class="v">Optimized plasma exposure</span>
+                </div>
+                <div class="result-chip">
+                  <span class="k">0 leaks</span>
+                  <span class="v">After optimization</span>
+                </div>
+                <div class="result-chip">
+                  <span class="k">SOP</span>
+                  <span class="v">Standardized process created</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag">PDMS</span>
+            <span class="tag">Plasma Bonding</span>
+            <span class="tag">SLA 3D Printing</span>
+            <span class="tag">Soft Lithography</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Takeaways -->
+    <section id="takeaways">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Translating to Wafer Fabrication</h2></div>
+          <p>How these methods scale naturally to high-volume semiconductor processing.</p>
+        </div>
+
+        <div class="takeaway-grid">
+          <div class="takeaway-card">
+            <h3>Process Optimization</h3>
+            <p>Apply DOE to define clean process windows for lithography and etch steps, bounding each factor to a stable region.</p>
+          </div>
+          <div class="takeaway-card">
+            <h3>Yield Improvement</h3>
+            <p>Use SPC (X-MR, I-MR charts) to monitor process stability, detect drift early, and reduce wafer-to-wafer and run-to-run variability.</p>
+          </div>
+          <div class="takeaway-card">
+            <h3>Troubleshooting</h3>
+            <p>Structured root-cause analysis, distinguishing tool-induced from process-induced failures so fixes target the right system.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="index.html">Home</a> ·
+        <a href="Lithography.pdf" target="_blank" rel="noopener">Slide Deck (PDF)</a> ·
+        <a href="https://www.linkedin.com/in/kirutiga-balan" target="_blank" rel="noopener">LinkedIn</a>
+      </p>
+      <p style="margin-top: 8px;">© 2026 Kirutiga Balan</p>
+    </div>
+  </footer>
+
+</body>
+</html>
