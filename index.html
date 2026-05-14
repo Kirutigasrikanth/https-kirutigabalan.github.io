@@ -54,11 +54,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;
 main{position:relative;z-index:1}
 section{padding:clamp(72px,10vh,120px) clamp(16px,5vw,64px);max-width:1200px;margin:0 auto}
 section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
-.sec-label{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.sec-label::before{content:'#';opacity:.5}
-.sec-title{font-size:clamp(34px,5vw,58px);font-weight:900;letter-spacing:-.05em;
-  color:var(--text);line-height:.95;margin-bottom:clamp(32px,5vh,56px)}
+.sec-label{font-size:clamp(32px,5vw,56px);font-weight:900;letter-spacing:-.04em;
+  text-transform:none;color:var(--accent);line-height:1;
+  margin-bottom:clamp(24px,4vh,44px);display:block}
+.sec-label::before{content:none}
 
 /* ── HERO ── */
 #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
@@ -410,13 +409,9 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 <!-- ═══════════════════════ ABOUT ═══════════════════════ -->
 <section id="about">
   <div class="sec-label">About</div>
-  <div class="sec-title">Who I am</div>
   <div class="about-grid">
     <div class="about-body reveal">
-      <p>I am a <strong>materials and electrochemical engineer</strong> with deep expertise in microfabrication, battery systems, and process development. My work bridges the gap between physics-based models and real-world manufacturing — from building 100+ microfluidic devices in a Class 100 cleanroom to running DOE campaigns that achieved 2× dendrite suppression at Electra.</p>
-      <p>I completed my graduate research at <strong>UT Austin</strong> in Aerospace Engineering and Materials Science, studying magnetically enhanced ion transport with Micro-PIV diagnostics and building first-principles technoeconomic models for Li-ion anode manufacturing benchmarked against Argonne BatPaC.</p>
-      <p>I earned my BTech in Mechanical Engineering from <strong>Amrita University</strong> (2015–2019), where I led DFMEA and eBOM costing for Amrita Racing at SAE SUPRA 2017, placing <strong>#6 out of 112 teams</strong> across India.</p>
-      <p>When I'm not in the cleanroom or running simulations, you'll find me optimizing a DOE, reading about battery chemistry, or exploring new electrochemical systems.</p>
+      <p>I am driven by a commitment to understanding complex systems, building reliable processes, and connecting tool performance back to first principles. I take great joy in hands-on work because it lets me see the science happen in real time, and I have consistently found that the most effective engineering solutions emerge when rigorous experimentation is grounded in first-principles reasoning. During my graduate research at UT Austin, I designed and fabricated a microfluidic electrodeposition cell from scratch, applying root cause analysis across iterative build cycles to increase extraction throughput by 4X and reduce assembly time by 30%. At Electra, I owned electrochemical process challenges with real production implications, screening over 25 additive combinations through JMP-based DOE to improve Faradaic efficiency by 5% and reduce dendrite formation by 50% compared to baseline. These experiences have shaped my conviction that disciplined experimentation, thoughtful troubleshooting, and a deep connection to the underlying physics are what separate good process engineering from great process engineering.</p>
     </div>
     <div class="about-photo reveal rd1">
       <img src="images/electra_team.jpg" alt="Kirutiga Balan" style="object-position:center 15%">
@@ -427,7 +422,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 <!-- ═══════════════════════ WORK ═══════════════════════ -->
 <section id="work">
   <div class="sec-label">Research</div>
-  <div class="sec-title">UT Austin</div>
   <div class="work-meta reveal">Aerospace Eng &nbsp;Jan 2022 – May 2025 &nbsp;·&nbsp; MSE &nbsp;Jan 2020 – Dec 2021 &nbsp;·&nbsp; Austin, TX</div>
 
   <div class="carousel-wrap reveal">
@@ -499,10 +493,12 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
     <div class="entity-card" onclick="openModal('ut')">
       <img src="images/logos/ut-edu-card.png" alt="University of Texas at Austin">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
     </div>
 
     <div class="entity-card" onclick="openModal('amrita-edu')">
       <img src="images/logos/amrita-edu-card.png" alt="Amrita Vishwa Vidyapeetham">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
     </div>
 
   </div>
@@ -511,8 +507,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 <!-- ═══════════════════════ INTERNSHIPS ═══════════════════════ -->
 <section id="internships">
-  <div class="sec-label">Industry</div>
-  <div class="sec-title">Internships</div>
+  <div class="sec-label">Internships</div>
   <div class="entity-grid reveal">
 
     <div class="entity-card" onclick="openModal('electra')">
@@ -535,9 +530,19 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 <!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
 <section id="projects">
-  <div class="sec-label">Work</div>
-  <div class="sec-title">Projects &amp; Publications</div>
+  <div class="sec-label">Projects</div>
   <div class="proj-list reveal">
+
+    <div class="proj-card" onclick="openModal('proj-pdms')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <div id="pdms-proj-wrap" style="width:100%;aspect-ratio:16/10;background:#0a0f1e;overflow:hidden;cursor:grab;">
+          <canvas id="pdms-proj-canvas" style="width:100%;height:100%;display:block;"></canvas>
+          <div style="position:absolute;bottom:5px;right:8px;font-size:9px;color:rgba(255,255,255,0.3);pointer-events:none;letter-spacing:.06em;">drag · zoom</div>
+        </div>
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">PDMS Device Design &amp; Soft Lithography</div><div class="proj-tag">CAD → Fabrication</div></div>
+    </div>
 
     <div class="proj-card" onclick="openModal('proj-litho')" style="cursor:pointer">
       <div class="proj-thumb" style="position:relative">
@@ -545,14 +550,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
         <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
       </div>
       <div class="proj-info"><div class="proj-title">Photolithography &amp; Plasma Bonding</div><div class="proj-tag">Cleanroom Process Engineering</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-pdms')" style="cursor:pointer">
-      <div class="proj-thumb contain" style="position:relative">
-        <img src="images/pdmscopper.png" alt="PDMS CAD">
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">PDMS Device Design &amp; Soft Lithography</div><div class="proj-tag">CAD → Fabrication</div></div>
     </div>
 
     <div class="proj-card" onclick="openModal('proj-magnet')" style="cursor:pointer">
@@ -608,7 +605,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 <!-- ═══════════════════════ SKILLS ═══════════════════════ -->
 <section id="skills">
   <div class="sec-label">Skills</div>
-  <div class="sec-title">Toolkit</div>
   <div class="skills-grid reveal">
 
     <div class="skill-card">
@@ -671,7 +667,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
 <section id="contact">
-  <p class="contact-tagline reveal">Let's chat about<br>batteries!</p>
+  <p class="contact-tagline reveal">Let's build<br>what's next.</p>
   <a class="contact-email-link reveal rd1" href="mailto:krithika151997@gmail.com">krithika151997@gmail.com</a>
   <div class="contact-socials reveal rd2">
     <a class="contact-social-link" href="https://www.linkedin.com/in/kirutiga-balan" target="_blank">
@@ -984,7 +980,7 @@ const MODALS = {
   'amrita-edu': {
     title: 'Amrita Vishwa Vidyapeetham',
     date: 'BTech Mechanical Engineering · Jul 2015 – May 2019 · Coimbatore, India',
-    media: 'images/logos/amrita-racing-card.png',
+    media: 'images/logos/amrita_racing.png',
     bullets: [
       'BTech in Mechanical Engineering with focus on design, manufacturing, and vehicle dynamics.',
       'Performed DFMEA analysis for suspension, steering, and drivetrain subsystems on SAE SUPRA Formula car.',
@@ -1045,7 +1041,7 @@ const MODALS = {
   'proj-litho': {
     title: 'Photolithography & Plasma Bonding',
     date: 'Cleanroom Process Engineering · UT Austin · 2022–2025',
-    media: 'images/litho_p12_img2.jpeg',
+    rotator: ['images/cleanroom_wetbench.jpeg', 'images/dektak_profilometer.jpeg'],
     link: 'lithography.html', linkLabel: 'View Full Case Study ↗',
     bullets: [
       'End-to-end SU-8 photolithography: spin coating, mask alignment, UV exposure, and development in Class 100 cleanroom.',
@@ -1057,12 +1053,15 @@ const MODALS = {
   'proj-pdms': {
     title: 'PDMS Device Design & Soft Lithography',
     date: 'CAD → Fabrication · UT Austin · 2022–2025',
-    media: 'images/pdmscopper.png',
-    bullets: [
-      'Designed microfluidic channel geometries in SolidWorks; iterated on aspect ratios and electrode spacing for electrodeposition studies.',
-      '3D-printed SLA master moulds at 10 μm resolution; cast and cured PDMS against moulds to replicate channel features.',
-      'Achieved 4× increase in fabrication throughput by integrating CAD-driven tooling with streamlined PDMS casting workflow.',
-      'Characterised device dimensions using optical profilometry (Dektak); confirmed feature tolerances within ±1 μm.'
+    carousel: true,
+    slides: [
+      { type: 'stl' },
+      { type: 'media', src: 'images/IMG_2625.JPG', alt: 'PDMS microfluidic device fabrication', items: [
+        'Designed microfluidic channel geometries in SolidWorks; iterated on aspect ratios and electrode spacing for electrodeposition studies.',
+        '3D-printed SLA master moulds at 10 μm resolution; cast and cured PDMS against moulds to replicate channel features.',
+        'Achieved 4× increase in fabrication throughput by integrating CAD-driven tooling with streamlined PDMS casting workflow.',
+        'Characterised device dimensions using optical profilometry (Dektak); confirmed feature tolerances within ±1 μm.'
+      ]}
     ]
   },
   'proj-magnet': {
@@ -1150,7 +1149,7 @@ function openModal(id) {
 
   if (d.rotator) {
     body.style.gridTemplateColumns = '1fr 1fr';
-    const imgs = d.images;
+    const imgs = d.rotator;
     const imgTags = imgs.map((src,i) =>
       `<img src="${src}" alt="UT Austin cleanroom" class="${i===0?'active':''}">`
     ).join('');
@@ -1175,7 +1174,21 @@ function openModal(id) {
   } else if (d.carousel) {
     body.style.gridTemplateColumns = '1fr';
     const slidesHTML = d.slides.map((s, i) => {
-      if (s.type === 'image') {
+      if (s.type === 'stl') {
+        return `<div class="m-slide${i===0?' active':''}">
+          <div id="m-stl-wrap" style="width:100%;aspect-ratio:16/10;background:#0a0f1e;cursor:grab;overflow:hidden;position:relative;">
+            <canvas id="m-stl-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            <div style="position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,0.35);pointer-events:none;letter-spacing:.06em;">drag · scroll to zoom</div>
+          </div>
+        </div>`;
+      } else if (s.type === 'media') {
+        return `<div class="m-slide${i===0?' active':''}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+            <img src="${s.src}" alt="${s.alt}" style="width:100%;border-radius:10px;object-fit:cover;aspect-ratio:4/3;">
+            <ul class="m-bullets">${s.items.map(b=>`<li>${b}</li>`).join('')}</ul>
+          </div>
+        </div>`;
+      } else if (s.type === 'image') {
         return `<div class="m-slide${i===0?' active':''}">
           <img src="${s.src}" alt="${s.alt}">
         </div>`;
@@ -1225,6 +1238,10 @@ function openModal(id) {
 
   document.getElementById('m-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  // Init STL viewer if this modal has an STL slide
+  if (d.carousel && d.slides && d.slides.some(s => s.type === 'stl')) {
+    setTimeout(() => { if (window.initSTLViewer) initSTLViewer('m-stl-canvas', 'm-stl-wrap'); }, 80);
+  }
 }
 
 function goSlide(idx) {
@@ -1235,6 +1252,11 @@ function goSlide(idx) {
   slides.forEach((s,i) => s.classList.toggle('active', i===idx));
   dots.forEach((d,i) => d.classList.toggle('active', i===idx));
   window._slideIdx = idx;
+  // Re-init STL viewer when its slide becomes visible
+  const stlCanvas = document.getElementById('m-stl-canvas');
+  if (stlCanvas && slides[idx] && slides[idx].contains(stlCanvas)) {
+    setTimeout(() => { if (window.initSTLViewer) initSTLViewer('m-stl-canvas', 'm-stl-wrap'); }, 50);
+  }
 }
 
 function stepSlide(dir) {
@@ -1245,6 +1267,7 @@ function closeModal() {
   document.getElementById('m-overlay').classList.remove('open');
   document.body.style.overflow = '';
   if (_rotatorTimer) { clearInterval(_rotatorTimer); _rotatorTimer = null; }
+  if (window.stopSTLViewer) stopSTLViewer('m-stl-canvas');
 }
 
 function rotatorGo(idx) {
@@ -1269,140 +1292,132 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 </script>
 
 <script>
-/* ── Interactive STL viewer for PDMS channel geometry ── */
+/* ── STL viewer — reusable, shared geometry cache ── */
 (function () {
+  var _geoPromise = null;   // fetch once, reuse across all viewers
+  var _frames     = {};     // animationFrame IDs keyed by canvasId
+  var _renderers  = {};     // WebGLRenderer instances keyed by canvasId
+
   function loadThree(cb) {
     if (window.THREE) { cb(); return; }
     var s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    s.onload = cb;
-    document.head.appendChild(s);
+    s.onload = cb; document.head.appendChild(s);
   }
 
-  function parseSTLBinary(buf) {
+  function parseSTL(buf) {
     var geo = new THREE.BufferGeometry();
-    var dv  = new DataView(buf);
-    var n   = dv.getUint32(80, true);
-    var pos = new Float32Array(n * 9);
-    var nrm = new Float32Array(n * 9);
-    var o   = 84;
+    var dv = new DataView(buf), n = dv.getUint32(80, true);
+    var pos = new Float32Array(n*9), nrm = new Float32Array(n*9), o = 84;
     for (var i = 0; i < n; i++) {
-      var nx = dv.getFloat32(o,    true);
-      var ny = dv.getFloat32(o+4,  true);
-      var nz = dv.getFloat32(o+8,  true);
+      var nx=dv.getFloat32(o,true), ny=dv.getFloat32(o+4,true), nz=dv.getFloat32(o+8,true);
       o += 12;
       for (var v = 0; v < 3; v++) {
-        var vi = (i*3+v)*3;
-        pos[vi]   = dv.getFloat32(o,    true);
-        pos[vi+1] = dv.getFloat32(o+4,  true);
-        pos[vi+2] = dv.getFloat32(o+8,  true);
-        nrm[vi]=nx; nrm[vi+1]=ny; nrm[vi+2]=nz;
-        o += 12;
+        var vi=(i*3+v)*3;
+        pos[vi]=dv.getFloat32(o,true); pos[vi+1]=dv.getFloat32(o+4,true); pos[vi+2]=dv.getFloat32(o+8,true);
+        nrm[vi]=nx; nrm[vi+1]=ny; nrm[vi+2]=nz; o+=12;
       }
       o += 2;
     }
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('normal',   new THREE.BufferAttribute(nrm, 3));
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('normal',   new THREE.BufferAttribute(nrm,3));
     return geo;
   }
 
-  function initCAD3D() {
-    var canvas = document.getElementById('cad-3d-canvas');
-    var wrap   = document.getElementById('cad-3d-wrap');
+  function getGeo() {
+    if (!_geoPromise) {
+      _geoPromise = fetch('images/microfluidic_3_fillet.STL')
+        .then(function(r){ return r.arrayBuffer(); })
+        .then(function(buf){ var g=parseSTL(buf); g.computeVertexNormals(); g.center(); return g; });
+    }
+    return _geoPromise;
+  }
+
+  function spawnViewer(canvasId, wrapId) {
+    var canvas = document.getElementById(canvasId);
+    var wrap   = document.getElementById(wrapId);
     if (!canvas || !wrap) return;
 
-    var W = wrap.clientWidth  || 640;
-    var H = wrap.clientHeight || 400;
+    // Tear down any existing viewer on this canvas
+    if (_frames[canvasId])    { cancelAnimationFrame(_frames[canvasId]); delete _frames[canvasId]; }
+    if (_renderers[canvasId]) { try { _renderers[canvasId].dispose(); } catch(e){} delete _renderers[canvasId]; }
+
+    var W = wrap.offsetWidth  || 640;
+    var H = wrap.offsetHeight || 400;
+    if (!W || !H) { W=640; H=400; }
 
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
     renderer.setSize(W, H, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x0a0f1e);
+    _renderers[canvasId] = renderer;
 
     var scene  = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(45, W / H, 0.01, 1000);
+    var camera = new THREE.PerspectiveCamera(45, W/H, 0.01, 1000);
     camera.position.set(0, 0, 5);
 
     scene.add(new THREE.AmbientLight(0x8899bb, 0.8));
-    var dl = new THREE.DirectionalLight(0xffffff, 1.3);
-    dl.position.set(3, 4, 5); scene.add(dl);
-    var fl = new THREE.DirectionalLight(0x3366aa, 0.5);
-    fl.position.set(-3, -2, -2); scene.add(fl);
+    var dl = new THREE.DirectionalLight(0xffffff, 1.3); dl.position.set(3,4,5); scene.add(dl);
+    var fl = new THREE.DirectionalLight(0x3366aa, 0.5); fl.position.set(-3,-2,-2); scene.add(fl);
 
-    fetch('images/microfluidic_3_fillet.STL')
-      .then(function(r){ return r.arrayBuffer(); })
-      .then(function(buf){
-        var geo = parseSTLBinary(buf);
-        geo.computeVertexNormals();
-        geo.center();
-        var tmp = new THREE.Mesh(geo);
-        var box = new THREE.Box3().setFromObject(tmp);
-        var sz  = box.getSize(new THREE.Vector3());
-        var sc  = 2.8 / Math.max(sz.x, sz.y, sz.z);
+    getGeo().then(function(src) {
+      var geo  = src.clone();
+      var box  = new THREE.Box3().setFromObject(new THREE.Mesh(geo));
+      var sz   = box.getSize(new THREE.Vector3());
+      var sc   = 2.8 / Math.max(sz.x, sz.y, sz.z);
+      var mat  = new THREE.MeshPhongMaterial({ color:0x1a7fd4, specular:0x55aaff, shininess:90, transparent:true, opacity:0.9, side:THREE.DoubleSide });
+      var mesh = new THREE.Mesh(geo, mat); mesh.scale.setScalar(sc); scene.add(mesh);
+      var eg   = new THREE.EdgesGeometry(geo, 15);
+      var em   = new THREE.LineBasicMaterial({ color:0x88ccff, transparent:true, opacity:0.25 });
+      var edg  = new THREE.LineSegments(eg, em); edg.scale.setScalar(sc); scene.add(edg);
 
-        var mat = new THREE.MeshPhongMaterial({
-          color: 0x1a7fd4, specular: 0x55aaff, shininess: 90,
-          transparent: true, opacity: 0.9, side: THREE.DoubleSide
-        });
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.scale.setScalar(sc);
-        scene.add(mesh);
+      var drag=false, pX=0, pY=0, rotY=0.4, rotX=-0.25, camZ=5, autoSpin=true;
+      function applyRot(){ mesh.rotation.set(rotX,rotY,0); edg.rotation.set(rotX,rotY,0); }
 
-        /* edges overlay for a clean CAD look */
-        var edgeGeo = new THREE.EdgesGeometry(geo, 15);
-        var edgeMat = new THREE.LineBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0.25 });
-        var edges = new THREE.LineSegments(edgeGeo, edgeMat);
-        edges.scale.setScalar(sc);
-        scene.add(edges);
+      canvas.addEventListener('mousedown', function(e){ drag=true; autoSpin=false; pX=e.clientX; pY=e.clientY; canvas.style.cursor='grabbing'; });
+      canvas.addEventListener('mouseup',   function(){ drag=false; canvas.style.cursor='grab'; });
+      canvas.addEventListener('mouseleave',function(){ drag=false; canvas.style.cursor='grab'; });
+      canvas.addEventListener('mousemove', function(e){ if(!drag)return; rotY+=(e.clientX-pX)*0.012; rotX+=(e.clientY-pY)*0.012; pX=e.clientX; pY=e.clientY; applyRot(); });
+      canvas.addEventListener('wheel',     function(e){ e.preventDefault(); camZ=Math.max(1.5,Math.min(12,camZ+e.deltaY*0.009)); },{passive:false});
+      var lt=null;
+      canvas.addEventListener('touchstart',function(e){ lt={x:e.touches[0].clientX,y:e.touches[0].clientY}; autoSpin=false; e.preventDefault(); },{passive:false});
+      canvas.addEventListener('touchmove', function(e){ if(!lt)return; rotY+=(e.touches[0].clientX-lt.x)*0.012; rotX+=(e.touches[0].clientY-lt.y)*0.012; lt={x:e.touches[0].clientX,y:e.touches[0].clientY}; applyRot(); e.preventDefault(); },{passive:false});
 
-        var drag = false, pX = 0, pY = 0;
-        var rotY = 0.4, rotX = -0.25, camZ = 5;
-        var autoSpin = true;
+      (function animate(){
+        _frames[canvasId] = requestAnimationFrame(animate);
+        if(autoSpin){ rotY+=0.004; applyRot(); }
+        camera.position.z = camZ;
+        renderer.render(scene, camera);
+      })();
 
-        function applyRot() { mesh.rotation.set(rotX, rotY, 0); edges.rotation.set(rotX, rotY, 0); }
-
-        canvas.addEventListener('mousedown', function(e){ drag=true; autoSpin=false; pX=e.clientX; pY=e.clientY; canvas.style.cursor='grabbing'; });
-        canvas.addEventListener('mouseup',   function(){ drag=false; canvas.style.cursor='grab'; });
-        canvas.addEventListener('mouseleave',function(){ drag=false; canvas.style.cursor='grab'; });
-        canvas.addEventListener('mousemove', function(e){
-          if (!drag) return;
-          rotY += (e.clientX-pX)*0.012; rotX += (e.clientY-pY)*0.012;
-          pX=e.clientX; pY=e.clientY; applyRot();
-        });
-        canvas.addEventListener('wheel', function(e){
-          e.preventDefault();
-          camZ = Math.max(1.5, Math.min(12, camZ + e.deltaY*0.009));
-        }, { passive: false });
-
-        var lt = null;
-        canvas.addEventListener('touchstart', function(e){ lt={x:e.touches[0].clientX,y:e.touches[0].clientY}; autoSpin=false; e.preventDefault(); },{passive:false});
-        canvas.addEventListener('touchmove',  function(e){
-          if(!lt) return;
-          rotY+=(e.touches[0].clientX-lt.x)*0.012; rotX+=(e.touches[0].clientY-lt.y)*0.012;
-          lt={x:e.touches[0].clientX,y:e.touches[0].clientY}; applyRot(); e.preventDefault();
-        },{passive:false});
-
-        (function animate(){
-          requestAnimationFrame(animate);
-          if (autoSpin){ rotY+=0.004; applyRot(); }
-          camera.position.z = camZ;
-          renderer.render(scene, camera);
-        })();
-      })
-      .catch(function(err){ console.warn('STL viewer:', err); });
-
-    /* resize */
-    window.addEventListener('resize', function(){
-      var nW=wrap.clientWidth, nH=wrap.clientHeight;
-      renderer.setSize(nW, nH, false);
-      camera.aspect=nW/nH; camera.updateProjectionMatrix();
-    });
+      window.addEventListener('resize', function(){
+        var nW=wrap.offsetWidth, nH=wrap.offsetHeight;
+        if(!nW||!nH) return;
+        renderer.setSize(nW,nH,false); camera.aspect=nW/nH; camera.updateProjectionMatrix();
+      });
+    }).catch(function(err){ console.warn('STL viewer ['+canvasId+']:', err); });
   }
 
+  // Public API used by openModal / closeModal / goSlide
+  window.initSTLViewer = function(canvasId, wrapId) {
+    loadThree(function(){ spawnViewer(canvasId, wrapId); });
+  };
+  window.stopSTLViewer = function(canvasId) {
+    if (_frames[canvasId])    { cancelAnimationFrame(_frames[canvasId]); delete _frames[canvasId]; }
+    if (_renderers[canvasId]) { try { _renderers[canvasId].dispose(); } catch(e){} delete _renderers[canvasId]; }
+  };
+
+  // Auto-init page-level viewers on load
+  function initPageViewers() {
+    loadThree(function(){
+      spawnViewer('cad-3d-canvas',   'cad-3d-wrap');
+      spawnViewer('pdms-proj-canvas','pdms-proj-wrap');
+    });
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function(){ loadThree(initCAD3D); });
+    document.addEventListener('DOMContentLoaded', initPageViewers);
   } else {
-    loadThree(initCAD3D);
+    initPageViewers();
   }
 })();
 </script>
