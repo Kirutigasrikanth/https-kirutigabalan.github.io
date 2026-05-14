@@ -130,6 +130,30 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
   overflow:hidden;border:1px solid var(--border);flex-shrink:0}
 .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
 
+/* ── ABOUT ACCORDION FACETS ── */
+.about-facets{margin-top:28px;border-top:1px solid var(--border)}
+.facet-item{border-bottom:1px solid var(--border);overflow:hidden}
+.facet-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;background:none;border:none;cursor:pointer;
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-3);transition:color .2s}
+.facet-trigger:hover,.facet-item.open .facet-trigger{color:var(--accent)}
+.facet-arrow{width:16px;height:16px;transition:transform .3s var(--ease);flex-shrink:0}
+.facet-item.open .facet-arrow{transform:rotate(45deg)}
+.facet-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease),opacity .3s}
+.facet-body p{padding:0 0 16px;font-size:clamp(14px,1.5vw,15.5px);
+  color:var(--text-2);line-height:1.8}
+.facet-item.open .facet-body{max-height:200px}
+
+/* ── HERO SCROLL NUDGE ── */
+.scroll-nudge{position:absolute;bottom:clamp(24px,4vh,40px);left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-3);animation:nudgeFade 1s var(--ease) 1.5s both}
+.scroll-nudge svg{animation:nudgeBounce 1.6s ease-in-out infinite}
+@keyframes nudgeFade{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes nudgeBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
 /* ── WORK (carousel) ── */
 .work-meta{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
   color:var(--text-3);margin-bottom:20px}
@@ -274,6 +298,8 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
   display:flex;align-items:center;gap:6px;transition:color .2s}
 .contact-social-link:hover{color:var(--text)}
 .contact-made-by{margin-top:clamp(40px,6vh,70px);font-size:13px;color:var(--text-3)}
+.contact-personal-note{margin-top:clamp(32px,5vh,56px);font-size:clamp(13px,1.4vw,14.5px);
+  color:var(--text-3);line-height:1.85;max-width:520px;font-style:italic}
 
 /* ── PROJECTS ── */
 .proj-list{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
@@ -298,11 +324,19 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 .proj-info{padding:14px 16px 18px;flex:1;display:flex;flex-direction:column;gap:4px}
 .proj-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
 .proj-tag{font-size:11px;color:var(--text-3)}
-.proj-overlay{position:absolute;inset:0;background:rgba(9,9,15,.65);
-  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.proj-overlay{position:absolute;inset:0;background:rgba(9,9,15,.72);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;opacity:0;transition:opacity .3s;padding:16px}
 .proj-card:hover .proj-overlay{opacity:1}
 .proj-overlay-chip{background:var(--accent);color:#000;font-weight:700;font-size:12px;
   padding:8px 18px;border-radius:100px}
+.proj-overlay-impact{font-size:12px;color:rgba(255,255,255,.85);text-align:center;
+  line-height:1.5;max-width:240px;font-weight:500}
+
+/* ── PROJECT PROCESS TAGS ── */
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.proj-ptag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-3);background:var(--surface-2);border-radius:100px;padding:3px 9px}
 
 /* ── SKILLS ── */
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));
@@ -389,7 +423,11 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   <a class="nav-resume-left" href="resume.pdf" download>Resume</a>
   <ul class="nav-center">
     <li><a href="#home" class="active">Home</a></li>
-    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#internships">Internships</a></li>
+    <li><a href="#work">Research</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="hamburger" id="ham-btn" onclick="toggleMenu()" aria-label="Menu">
@@ -402,7 +440,11 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 <div class="mobile-menu" id="mobile-menu">
   <button class="mobile-close" onclick="toggleMenu()">✕</button>
   <a href="#home" onclick="toggleMenu()">Home</a>
-  <a href="#work" onclick="toggleMenu()">Work</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#projects" onclick="toggleMenu()">Projects</a>
+  <a href="#education" onclick="toggleMenu()">Education</a>
+  <a href="#internships" onclick="toggleMenu()">Internships</a>
+  <a href="#work" onclick="toggleMenu()">Research</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
 </div>
 
@@ -498,6 +540,11 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     <div class="stat"><div class="stat-n"><span>2</span>×</div><div class="stat-l">Dendrite suppression</div></div>
     <div class="stat"><div class="stat-n">#<span>6</span></div><div class="stat-l">SAE SUPRA · 112 teams</div></div>
   </div>
+
+  <div class="scroll-nudge">
+    scroll to see work
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 11l5 3 5-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
 </section>
 
 <!-- ═══════════════════════ ABOUT ═══════════════════════ -->
@@ -506,6 +553,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   <div class="about-grid">
     <div class="about-body reveal">
       <p>I am driven by a commitment to understanding complex systems, building reliable processes, and connecting tool performance back to first principles. I take great joy in hands-on work because it lets me see the science happen in real time, and I have consistently found that the most effective engineering solutions emerge when rigorous experimentation is grounded in first-principles reasoning. During my graduate research at UT Austin, I designed and fabricated a microfluidic electrodeposition cell from scratch, applying root cause analysis across iterative build cycles to increase extraction throughput by 4X and reduce assembly time by 30%. At Electra, I owned electrochemical process challenges with real production implications, screening over 25 additive combinations through JMP-based DOE to improve Faradaic efficiency by 5% and reduce dendrite formation by 50% compared to baseline. These experiences have shaped my conviction that disciplined experimentation, thoughtful troubleshooting, and a deep connection to the underlying physics are what separate good process engineering from great process engineering.</p>
+
     </div>
     <div class="about-photo reveal rd1">
       <img src="images/electra_team.jpg" alt="Kirutiga Balan" style="object-position:center 15%">
@@ -513,10 +561,133 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   </div>
 </section>
 
+<!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
+<section id="projects">
+  <div class="sec-label">Projects</div>
+  <div class="proj-wrap">
+    <button class="carousel-btn" onclick="carouselScroll('proj-scroll',-1)" aria-label="Previous">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="proj-list reveal" id="proj-scroll">
+
+    <div class="proj-card" onclick="openModal('proj-znsn')" style="cursor:pointer">
+      <div class="proj-thumb contain" style="position:relative">
+        <img src="images/znsn-schematic.png" alt="Zn-Sn anode" style="background:rgba(8,12,32,0.8)">
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">20% improvement in predictive accuracy · first-principles TEA benchmarked vs Argonne BatPaC</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">Physics-Based Modeling — Zn-Sn Alloy Anodes</div><div class="proj-tag">Battery Modeling · UT Austin MSE</div><div class="proj-tags"><span class="proj-ptag">Modeling</span><span class="proj-ptag">MATLAB</span><span class="proj-ptag">TEA</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-magnet')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <video autoplay loop muted playsinline style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">
+          <source src="images/microfluidic.mp4" type="video/mp4">
+        </video>
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">1.25× ion transport efficiency · 50% dendrite reduction · micro-PIV validated</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">Magnetically Enhanced Electrochemical Extraction</div><div class="proj-tag">Cu dendrite growth in a microfluidic cell</div><div class="proj-tags"><span class="proj-ptag">Micro-PIV</span><span class="proj-ptag">Electrochemistry</span><span class="proj-ptag">DOE</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-pdms')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <div id="pdms-proj-wrap" style="width:100%;aspect-ratio:16/10;background:#0a0f1e;overflow:hidden;cursor:grab;">
+          <canvas id="pdms-proj-canvas" style="width:100%;height:100%;display:block;"></canvas>
+          <div style="position:absolute;bottom:5px;right:8px;font-size:9px;color:rgba(255,255,255,0.3);pointer-events:none;letter-spacing:.06em;">drag · zoom</div>
+        </div>
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">4× fabrication throughput · 30% faster assembly via iterative CAD-to-cast cycles</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">PDMS Device Design &amp; Soft Lithography</div><div class="proj-tag">CAD → Fabrication</div><div class="proj-tags"><span class="proj-ptag">SolidWorks</span><span class="proj-ptag">Soft Litho</span><span class="proj-ptag">DOE</span><span class="proj-ptag">Fabricated</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-litho')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <img src="images/litho_p12_img2.jpeg" alt="Plasma RIE" style="object-position:center 40%">
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">&lt;2 μm feature deviation · 100+ devices · leak-free PDMS-glass bond on March Plasma RIE</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">Photolithography &amp; Plasma Bonding</div><div class="proj-tag">Cleanroom Process Engineering</div><div class="proj-tags"><span class="proj-ptag">SU-8</span><span class="proj-ptag">Plasma RIE</span><span class="proj-ptag">Class 100</span><span class="proj-ptag">SOP</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-piv')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <video autoplay loop muted playsinline style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">
+          <source src="videos/Noflow_Edited_Jul22.mp4" type="video/mp4">
+        </video>
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">Micron-scale flow field mapping · validated magnetic field enhancement of transport</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">Micro-PIV Flow Diagnostics</div><div class="proj-tag">Experimental Fluid Mechanics</div><div class="proj-tags"><span class="proj-ptag">PIV</span><span class="proj-ptag">Fluid Mechanics</span><span class="proj-ptag">Imaging</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-dis')" style="cursor:pointer">
+      <div class="proj-thumb" style="position:relative">
+        <div class="proj-thumb dark-tile">
+          <div class="dark-tile-title">Diffusion-Induced<br>Stress</div>
+          <div class="dark-tile-sub">Single Particle Model · DAE · Fracture risk</div>
+        </div>
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">Single particle DAE model · fracture risk quantification across charge-discharge cycles</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">Diffusion-Induced Stress in Li-ion Batteries</div><div class="proj-tag">Battery Mechanics · IIT Bombay, 2018</div><div class="proj-tags"><span class="proj-ptag">DAE</span><span class="proj-ptag">Fracture</span><span class="proj-ptag">Li-ion</span></div></div>
+    </div>
+
+    <div class="proj-card" onclick="openModal('proj-cfd')" style="cursor:pointer">
+      <div class="proj-thumb contain" style="position:relative">
+        <img src="images/Phantom_CAD.png" alt="CFD syringe pump" style="background:rgba(8,12,32,0.85)">
+        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">CFD-validated flow phantom · experimental pulsatile flow characterisation · DGIST exchange</div></div>
+      </div>
+      <div class="proj-info"><div class="proj-title">CFD &amp; Experimental Design — Syringe-Pump Flow Phantom</div><div class="proj-tag">DGIST Research Exchange, 2019</div><div class="proj-tags"><span class="proj-ptag">CFD</span><span class="proj-ptag">SolidWorks</span><span class="proj-ptag">Experimental</span></div></div>
+    </div>
+
+    </div>
+    <button class="carousel-btn" onclick="carouselScroll('proj-scroll',1)" aria-label="Next">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════ EDUCATION ═══════════════════════ -->
+<section id="education">
+  <div class="sec-label">Education</div>
+  <div class="entity-grid reveal">
+
+    <div class="entity-card" onclick="openModal('ut')">
+      <img src="images/logos/ut-edu-card.png" alt="University of Texas at Austin">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
+    </div>
+
+    <div class="entity-card" onclick="openModal('amrita-edu')">
+      <img src="images/logos/amrita-edu-card.png" alt="Amrita Vishwa Vidyapeetham">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ INTERNSHIPS ═══════════════════════ -->
+<section id="internships">
+  <div class="sec-label">Internships</div>
+  <div class="entity-grid reveal">
+
+    <div class="entity-card" onclick="openModal('electra')">
+      <img src="images/logos/electra-card.png" alt="Electra">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
+    </div>
+
+    <div class="entity-card" onclick="openModal('dgist-intern')">
+      <img src="images/logos/dgist-card.png" alt="DGIST">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
+    </div>
+
+    <div class="entity-card" onclick="openModal('iitb')">
+      <img src="images/logos/iitb-card.png" alt="IIT Bombay">
+      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ═══════════════════════ WORK ═══════════════════════ -->
 <section id="work">
   <div class="sec-label">Research</div>
-  <div class="work-meta reveal">Aerospace Eng &nbsp;Jan 2022 – May 2025 &nbsp;·&nbsp; MSE &nbsp;Jan 2020 – Dec 2021 &nbsp;·&nbsp; Austin, TX</div>
+  <div class="work-meta reveal">Aerospace Engineering &nbsp;·&nbsp; Austin, TX</div>
 
   <div class="carousel-wrap reveal">
     <div class="carousel-nav">
@@ -564,7 +735,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     </div>
   </div>
 
-  <p class="work-desc reveal">End-to-end microfabrication in Class 100 cleanroom: SU-8 photolithography, HF wet etching, and oxygen plasma bonding on March Plasma CS170IF RIE. Designed channel geometry in SolidWorks, 3D-printed SLA molds at 1 μm resolution, and cast and bonded 100+ PDMS devices. Micro-PIV flow diagnostics validated magnetic field enhancement of ion transport — 1.25× efficiency, 4× throughput. DOE root cause analysis achieved &lt;2 μm feature deviation. Concurrent physics-based modeling of Zn-Sn alloy battery anodes with 20% improvement in predictive accuracy and a first-principles TEA framework benchmarked against Argonne BatPaC.</p>
+  <p class="work-desc reveal">End-to-end microfabrication in Class 100 cleanroom: SU-8 photolithography, HF wet etching, and oxygen plasma bonding on March Plasma CS170IF RIE. Designed channel geometry in SolidWorks, 3D-printed SLA molds at 1 μm resolution, and cast and bonded 100+ PDMS devices. Micro-PIV flow diagnostics validated magnetic field enhancement of ion transport — 1.25× efficiency, 4× throughput. DOE root cause analysis achieved &lt;2 μm feature deviation.</p>
   <div class="work-pills reveal">
     <span class="pill">SU-8 Photolithography</span>
     <span class="pill">Plasma Bonding</span>
@@ -572,138 +743,12 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     <span class="pill">PDMS Soft Lithography</span>
     <span class="pill">SolidWorks</span>
     <span class="pill">Class 100 Cleanroom</span>
-    <span class="pill">Physics-Based Modeling</span>
-    <span class="pill">GITT / OCV</span>
-    <span class="pill">Technoeconomic Analysis</span>
+    <span class="pill">DOE</span>
   </div>
   <a class="work-link reveal" href="Lithography_1.pdf" target="_blank">
     View cleanroom case study
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H6M11 1V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
   </a>
-</section>
-
-<!-- ═══════════════════════ EDUCATION ═══════════════════════ -->
-<section id="education">
-  <div class="sec-label">Education</div>
-  <div class="entity-grid reveal">
-
-    <div class="entity-card" onclick="openModal('ut')">
-      <img src="images/logos/ut-edu-card.png" alt="University of Texas at Austin">
-      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
-    </div>
-
-    <div class="entity-card" onclick="openModal('amrita-edu')">
-      <img src="images/logos/amrita-edu-card.png" alt="Amrita Vishwa Vidyapeetham">
-      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ═══════════════════════ INTERNSHIPS ═══════════════════════ -->
-<section id="internships">
-  <div class="sec-label">Internships</div>
-  <div class="entity-grid reveal">
-
-    <div class="entity-card" onclick="openModal('electra')">
-      <img src="images/logos/electra-card.png" alt="Electra">
-      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
-    </div>
-
-    <div class="entity-card" onclick="openModal('dgist-intern')">
-      <img src="images/logos/dgist-card.png" alt="DGIST">
-      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
-    </div>
-
-    <div class="entity-card" onclick="openModal('iitb')">
-      <img src="images/logos/iitb-card.png" alt="IIT Bombay">
-      <div class="entity-overlay"><div class="entity-overlay-chip">Explore</div></div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
-<section id="projects">
-  <div class="sec-label">Projects</div>
-  <div class="proj-wrap">
-    <button class="carousel-btn" onclick="carouselScroll('proj-scroll',-1)" aria-label="Previous">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="proj-list reveal" id="proj-scroll">
-
-    <div class="proj-card" onclick="openModal('proj-pdms')" style="cursor:pointer">
-      <div class="proj-thumb" style="position:relative">
-        <div id="pdms-proj-wrap" style="width:100%;aspect-ratio:16/10;background:#0a0f1e;overflow:hidden;cursor:grab;">
-          <canvas id="pdms-proj-canvas" style="width:100%;height:100%;display:block;"></canvas>
-          <div style="position:absolute;bottom:5px;right:8px;font-size:9px;color:rgba(255,255,255,0.3);pointer-events:none;letter-spacing:.06em;">drag · zoom</div>
-        </div>
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">PDMS Device Design &amp; Soft Lithography</div><div class="proj-tag">CAD → Fabrication</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-litho')" style="cursor:pointer">
-      <div class="proj-thumb" style="position:relative">
-        <img src="images/litho_p12_img2.jpeg" alt="Plasma RIE" style="object-position:center 40%">
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">Photolithography &amp; Plasma Bonding</div><div class="proj-tag">Cleanroom Process Engineering</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-magnet')" style="cursor:pointer">
-      <div class="proj-thumb" style="position:relative">
-        <video autoplay loop muted playsinline style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">
-          <source src="images/microfluidic.mp4" type="video/mp4">
-        </video>
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">Magnetically Enhanced Electrochemical Extraction</div><div class="proj-tag">Cu dendrite growth in a microfluidic cell</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-piv')" style="cursor:pointer">
-      <div class="proj-thumb" style="position:relative">
-        <video autoplay loop muted playsinline style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">
-          <source src="videos/Noflow_Edited_Jul22.mp4" type="video/mp4">
-        </video>
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">Micro-PIV Flow Diagnostics</div><div class="proj-tag">Experimental Fluid Mechanics</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-znsn')" style="cursor:pointer">
-      <div class="proj-thumb contain" style="position:relative">
-        <img src="images/znsn-schematic.png" alt="Zn-Sn anode" style="background:rgba(8,12,32,0.8)">
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">Physics-Based Modeling — Zn-Sn Alloy Anodes</div><div class="proj-tag">Battery Modeling · UT Austin MSE</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-dis')" style="cursor:pointer">
-      <div class="proj-thumb" style="position:relative">
-        <div class="proj-thumb dark-tile">
-          <div class="dark-tile-title">Diffusion-Induced<br>Stress</div>
-          <div class="dark-tile-sub">Single Particle Model · DAE · Fracture risk</div>
-        </div>
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">Diffusion-Induced Stress in Li-ion Batteries</div><div class="proj-tag">Battery Mechanics · IIT Bombay, 2018</div></div>
-    </div>
-
-    <div class="proj-card" onclick="openModal('proj-cfd')" style="cursor:pointer">
-      <div class="proj-thumb contain" style="position:relative">
-        <img src="images/Phantom_CAD.png" alt="CFD syringe pump" style="background:rgba(8,12,32,0.85)">
-        <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div></div>
-      </div>
-      <div class="proj-info"><div class="proj-title">CFD &amp; Experimental Design — Syringe-Pump Flow Phantom</div><div class="proj-tag">DGIST Research Exchange, 2019</div></div>
-    </div>
-
-    </div>
-    <button class="carousel-btn" onclick="carouselScroll('proj-scroll',1)" aria-label="Next">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
 </section>
 
 <!-- ═══════════════════════ SKILLS ═══════════════════════ -->
@@ -787,7 +832,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
       Scholar
     </a>
   </div>
-  <div class="contact-made-by reveal">Made by Kirutiga Balan</div>
+  <div class="contact-made-by reveal">Made by Kirutiga Balan · © 2025</div>
 </section>
 
 <!-- ═══════════════════════ MODAL OVERLAY ═══════════════════════ -->
@@ -1057,10 +1102,18 @@ const ro=new IntersectionObserver(entries=>{
 },{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
+/* ═══════════ ABOUT FACET ACCORDION ═══════════ */
+function toggleFacet(btn){
+  const item = btn.closest('.facet-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.facet-item.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
 /* ═══════════ CAROUSEL ═══════════ */
 function carouselScroll(id,dir){
   const track=document.getElementById(id);
-  const slide=track.querySelector('.carousel-slide');
+  const slide=track.querySelector('.carousel-slide,.proj-card');
   if(!slide)return;
   const w=slide.offsetWidth+14;
   track.scrollBy({left:dir*w,behavior:'smooth'});
