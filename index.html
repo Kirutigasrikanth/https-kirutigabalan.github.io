@@ -102,7 +102,18 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 
 /* ── HERO ── */
 #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding-top:calc(56px + clamp(48px,8vh,80px));padding-bottom:clamp(48px,8vh,80px)}
+  padding-top:calc(56px + clamp(48px,8vh,80px));padding-bottom:clamp(48px,8vh,80px);
+  position:relative;overflow:hidden}
+.hero-bg-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;opacity:0.22;pointer-events:none}
+.hero-bg-overlay{position:absolute;inset:0;z-index:0;
+  background:linear-gradient(to bottom,
+    rgba(244,245,251,0.72) 0%,
+    rgba(244,245,251,0.50) 40%,
+    rgba(244,245,251,0.50) 60%,
+    rgba(244,245,251,0.88) 100%);
+  pointer-events:none}
+.hero-content{position:relative;z-index:1}
 .hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
   color:var(--accent);margin-bottom:clamp(20px,3vh,32px);
   display:flex;align-items:center;gap:8px;animation:up .7s var(--ease) .05s both}
@@ -372,12 +383,17 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
   color:var(--text-3);background:var(--surface-2);border-radius:100px;padding:3px 9px}
 
 /* ── SKILLS ── */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));
-  gap:clamp(20px,3.5vw,40px) clamp(14px,2vw,24px)}
-.skill-card{display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
-.skill-card:hover .skill-icon-img{transform:scale(1.08);filter:drop-shadow(0 4px 12px rgba(245,158,11,.35))}
-.skill-icon-img{width:68px;height:68px;object-fit:contain;transition:transform .25s var(--ease),filter .25s}
-.skill-name{font-size:12.5px;font-weight:500;color:var(--text-2);line-height:1.35}
+.skills-grid{display:flex;flex-wrap:wrap;gap:14px}
+.skill-tile{width:clamp(96px,12vw,120px);aspect-ratio:1;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;padding:14px 10px 10px;
+  transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s}
+.skill-tile:hover{border-color:var(--accent);transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(217,119,6,0.12)}
+.skill-tile img{width:48px;height:48px;object-fit:contain;flex-shrink:0}
+.skill-tile-name{font-size:11px;font-weight:600;color:var(--text-2);
+  text-align:center;line-height:1.3;letter-spacing:.01em}
 
 /* ── CONTACT ── */
 #contact .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
@@ -460,7 +476,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     <li><a href="#projects">Projects</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#internships">Internships</a></li>
-    <li><a href="#work">Research</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="hamburger" id="ham-btn" onclick="toggleMenu()" aria-label="Menu">
@@ -477,7 +492,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   <a href="#projects" onclick="toggleMenu()">Projects</a>
   <a href="#education" onclick="toggleMenu()">Education</a>
   <a href="#internships" onclick="toggleMenu()">Internships</a>
-  <a href="#work" onclick="toggleMenu()">Research</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
 </div>
 
@@ -554,32 +568,33 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 <!-- ═══════════════════════ HOME ═══════════════════════ -->
 <section id="home">
-  <div class="hero-eyebrow">Engineering Portfolio</div>
-  <h1 class="hero-name">Kirutiga<br><em>Balan</em></h1>
-  <div class="hero-role">
-    <span class="hero-role-prefix">I am a</span>
-    <span id="typed-role"></span><span id="typed-cursor"></span>
-  </div>
-  <p class="hero-sub">6 years of graduate research &amp; industry experience — built from first principles, validated by data.</p>
-  <div class="hero-cta">
-    <a class="btn-primary" href="https://www.linkedin.com/in/kirutiga-balan" target="_blank">
-      Connect with me
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-    <a class="btn-ghost" href="resume.pdf" download>
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7.5M6.5 8.5l-2.5-2.5M6.5 8.5l2.5-2.5M1.5 11.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Download Resume
-    </a>
+  <!-- Full-bleed background video -->
+  <video class="hero-bg-vid" autoplay loop muted playsinline>
+    <source src="images/microfluidic.mp4" type="video/mp4">
+  </video>
+  <div class="hero-bg-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Engineering Portfolio</div>
+    <h1 class="hero-name">Kirutiga<br><em>Balan</em></h1>
+    <div class="hero-role">
+      <span class="hero-role-prefix">I am a</span>
+      <span id="typed-role"></span><span id="typed-cursor"></span>
+    </div>
+    <p class="hero-sub">6 years of graduate research &amp; industry experience — built from first principles, validated by data.</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="https://www.linkedin.com/in/kirutiga-balan" target="_blank">
+        Connect with me
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn-ghost" href="resume.pdf" download>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7.5M6.5 8.5l-2.5-2.5M6.5 8.5l2.5-2.5M1.5 11.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download Resume
+      </a>
+    </div>
   </div>
 
-  <div class="hero-video">
-    <video autoplay loop muted playsinline>
-      <source src="videos/pivflow.mp4" type="video/mp4">
-    </video>
-    <div class="hero-video-cap">Micro-PIV vortex flow diagnostics · Magnetically enhanced ion transport · UT Austin</div>
-  </div>
-
-  <div class="stats-bar">
+  <div class="stats-bar" style="position:relative;z-index:1">
     <div class="stat"><div class="stat-n"><span>6</span> yrs</div><div class="stat-l">Research &amp; industry</div></div>
     <div class="stat"><div class="stat-n"><span>3</span> yrs</div><div class="stat-l">Class 100 cleanroom</div></div>
     <div class="stat"><div class="stat-n"><span>100</span>+</div><div class="stat-l">Devices fabricated</div></div>
@@ -587,7 +602,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     <div class="stat"><div class="stat-n">#<span>6</span></div><div class="stat-l">SAE SUPRA · 112 teams</div></div>
   </div>
 
-  <div class="scroll-nudge">
+  <div class="scroll-nudge" style="z-index:1">
     scroll to see work
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 11l5 3 5-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
@@ -626,12 +641,10 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
     <div class="proj-card" onclick="openModal('proj-magnet')" style="cursor:pointer">
       <div class="proj-thumb" style="position:relative">
-        <video autoplay loop muted playsinline style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">
-          <source src="images/microfluidic.mp4" type="video/mp4">
-        </video>
+        <img src="images/dendrite_radial.jpg" alt="Dendrite growth comparison — without and with magnet at t=500s">
         <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">1.25× ion transport efficiency · 50% dendrite reduction · micro-PIV validated</div></div>
       </div>
-      <div class="proj-info"><div class="proj-title">Magnetically Enhanced Electrochemical Extraction</div><div class="proj-tag">Cu dendrite growth in a microfluidic cell</div><div class="proj-tags"><span class="proj-ptag">Micro-PIV</span><span class="proj-ptag">Electrochemistry</span><span class="proj-ptag">DOE</span></div></div>
+      <div class="proj-info"><div class="proj-title">Magnetically Enhanced Electrochemical Extraction</div><div class="proj-tag">Preliminary testing in a radial cell</div><div class="proj-tags"><span class="proj-ptag">Micro-PIV</span><span class="proj-ptag">Electrochemistry</span><span class="proj-ptag">DOE</span></div></div>
     </div>
 
     <div class="proj-card" onclick="openModal('proj-pdms')" style="cursor:pointer">
@@ -730,131 +743,39 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   </div>
 </section>
 
-<!-- ═══════════════════════ WORK ═══════════════════════ -->
-<section id="work">
-  <div class="sec-label">Research</div>
-  <div class="work-meta reveal">Aerospace Engineering &nbsp;·&nbsp; Austin, TX</div>
-
-  <div class="carousel-wrap reveal">
-    <div class="carousel-nav">
-      <button class="carousel-btn" onclick="carouselScroll('work-carousel',-1)" aria-label="Previous">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-    <div class="carousel-track" id="work-carousel">
-      <div class="carousel-slide">
-        <video autoplay loop muted playsinline><source src="images/microfluidic.mp4" type="video/mp4"></video>
-        <div class="slide-cap">Micro-PIV vortex flow diagnostics &middot; Magnetically enhanced ion transport &middot; UT Austin</div>
-      </div>
-      <div class="carousel-slide">
-        <video autoplay loop muted playsinline><source src="videos/pivflow.mp4" type="video/mp4"></video>
-        <div class="slide-cap">Cu dendrite growth in a microfluidic cell</div>
-      </div>
-      <div class="carousel-slide">
-        <video autoplay loop muted playsinline><source src="videos/Noflow_Edited_Jul22.mp4" type="video/mp4"></video>
-        <div class="slide-cap">Micro-PIV flow field — no magnetic field baseline</div>
-      </div>
-      <div class="carousel-slide">
-        <img src="images/pdms_copper_device.jpeg" alt="PDMS microfluidic cell with copper deposits">
-        <div class="slide-cap">PDMS microfluidic cell — copper electrodeposition device</div>
-      </div>
-      <div class="carousel-slide">
-        <img src="images/litho_p12_img2.jpeg" alt="Plasma RIE etcher" style="object-position:center 40%">
-        <div class="slide-cap">March Plasma CS170IF RIE — oxygen plasma bonding</div>
-      </div>
-      <div class="carousel-slide">
-        <img src="images/cleanroom_wafer_yellow.jpeg" alt="Cleanroom photolithography">
-        <div class="slide-cap">Class 100 cleanroom — SU-8 photolithography</div>
-      </div>
-      <div class="carousel-slide" id="cad-3d-slide" style="background:#0a0f1e;">
-        <div id="cad-3d-wrap" style="width:100%;aspect-ratio:16/10;position:relative;overflow:hidden;cursor:grab;">
-          <canvas id="cad-3d-canvas" style="width:100%;height:100%;display:block;"></canvas>
-          <div style="position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,0.35);pointer-events:none;letter-spacing:.06em;">drag · scroll to zoom</div>
-        </div>
-        <div class="slide-cap">SolidWorks CAD — PDMS channel geometry &middot; interactive 3D model</div>
-      </div>
-    </div>
-    <div class="carousel-nav">
-      <button class="carousel-btn" onclick="carouselScroll('work-carousel',1)" aria-label="Next">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <p class="work-desc reveal">End-to-end microfabrication in Class 100 cleanroom: SU-8 photolithography, HF wet etching, and oxygen plasma bonding on March Plasma CS170IF RIE. Designed channel geometry in SolidWorks, 3D-printed SLA molds at 1 μm resolution, and cast and bonded 100+ PDMS devices. Micro-PIV flow diagnostics validated magnetic field enhancement of ion transport — 1.25× efficiency, 4× throughput. DOE root cause analysis achieved &lt;2 μm feature deviation.</p>
-  <div class="work-pills reveal">
-    <span class="pill">SU-8 Photolithography</span>
-    <span class="pill">Plasma Bonding</span>
-    <span class="pill">Micro-PIV</span>
-    <span class="pill">PDMS Soft Lithography</span>
-    <span class="pill">SolidWorks</span>
-    <span class="pill">Class 100 Cleanroom</span>
-    <span class="pill">DOE</span>
-  </div>
-  <a class="work-link reveal" href="Lithography_1.pdf" target="_blank">
-    View cleanroom case study
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H6M11 1V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </a>
-</section>
-
 <!-- ═══════════════════════ SKILLS ═══════════════════════ -->
 <section id="skills">
   <div class="sec-label">Skills</div>
   <div class="skills-grid reveal">
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
-      <div class="skill-name">Python, R</div>
+    <div class="skill-tile">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+      <div class="skill-tile-name">Python</div>
     </div>
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg" alt="MATLAB">
-      <div class="skill-name">MATLAB, Simulink</div>
+    <div class="skill-tile">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg" alt="MATLAB">
+      <div class="skill-tile-name">MATLAB</div>
     </div>
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nIzBkMzU3MScvPgo8dGV4dCB4PSc2MCcgeT0nNTInIGZvbnQtZmFtaWx5PSdBcmlhbCBCbGFjayxzYW5zLXNlcmlmJyBmb250LXNpemU9JzI4JyBmb250LXdlaWdodD0nOTAwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZSc+U1c8L3RleHQ+Cjx0ZXh0IHg9JzYwJyB5PSc4MCcgZm9udC1mYW1pbHk9J0FyaWFsLHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTAnIGZvbnQtd2VpZ2h0PSc0MDAnIGZpbGw9J3JnYmEoMjU1LDI1NSwyNTUsMC42KScgdGV4dC1hbmNob3I9J21pZGRsZScgbGV0dGVyLXNwYWNpbmc9JzInPlNPTElEV09SS1M8L3RleHQ+CjxwYXRoIGQ9J00zMCA5MCBRNjAgMTA2IDkwIDkwJyBzdHJva2U9JyM0ZGE2ZmYnIHN0cm9rZS13aWR0aD0nMi41JyBmaWxsPSdub25lJyBzdHJva2UtbGluZWNhcD0ncm91bmQnLz4KPC9zdmc+" alt="SolidWorks">
-      <div class="skill-name">SolidWorks, AutoCAD</div>
+    <div class="skill-tile">
+      <img src="images/logos/sw-logo.svg" alt="SolidWorks">
+      <div class="skill-tile-name">SolidWorks</div>
     </div>
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI0UwMDAyNScvPgo8dGV4dCB4PSc2MCcgeT0nNjgnIGZvbnQtZmFtaWx5PSdBcmlhbCBCbGFjayxzYW5zLXNlcmlmJyBmb250LXNpemU9JzUyJyBmb250LXdlaWdodD0nOTAwJyBmaWxsPScjRkZEMDAwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJz5BPC90ZXh0Pgo8dGV4dCB4PSc2MCcgeT0nOTgnIGZvbnQtZmFtaWx5PSdBcmlhbCxzYW5zLXNlcmlmJyBmb250LXNpemU9JzEyJyBmb250LXdlaWdodD0nNzAwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZScgbGV0dGVyLXNwYWNpbmc9JzEnPkFOU1lTPC90ZXh0Pgo8L3N2Zz4=" alt="ANSYS">
-      <div class="skill-name">ANSYS Fluent, CFD</div>
+    <div class="skill-tile">
+      <img src="images/logos/ansys-logo.svg" alt="ANSYS">
+      <div class="skill-tile-name">ANSYS Fluent</div>
     </div>
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSdqZycgeDE9JzAnIHkxPScwJyB4Mj0nMScgeTI9JzEnPgo8c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyMwMDUyQTUnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMwMDdEQzYnLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0ndXJsKCNqZyknLz4KPHRleHQgeD0nNjAnIHk9JzcyJyBmb250LWZhbWlseT0nQXJpYWwgQmxhY2ssc2Fucy1zZXJpZicgZm9udC1zaXplPSc0NicgZm9udC13ZWlnaHQ9JzkwMCcgZmlsbD0nd2hpdGUnIHRleHQtYW5jaG9yPSdtaWRkbGUnPkpNUDwvdGV4dD4KPHRleHQgeD0nNjAnIHk9Jzk2JyBmb250LWZhbWlseT0nQXJpYWwsc2Fucy1zZXJpZicgZm9udC1zaXplPSc5LjUnIGZpbGw9J3JnYmEoMjU1LDI1NSwyNTUsMC42NSknIHRleHQtYW5jaG9yPSdtaWRkbGUnIGxldHRlci1zcGFjaW5nPScxLjUnPkJZIFNBUzwvdGV4dD4KPC9zdmc+" alt="JMP">
-      <div class="skill-name">JMP, DOE &amp; SPC</div>
+    <div class="skill-tile">
+      <img src="images/logos/jmp-logo.svg" alt="JMP">
+      <div class="skill-tile-name">JMP by SAS</div>
     </div>
 
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI2VmZjZmZicvPgo8Y2lyY2xlIGN4PSc2MCcgY3k9JzYwJyByPSc0Nicgc3Ryb2tlPScjM2I4MmY2JyBzdHJva2Utd2lkdGg9JzMnLz4KPGNpcmNsZSBjeD0nNjAnIGN5PSc2MCcgcj0nMzInIHN0cm9rZT0nIzNiODJmNicgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZS1kYXNoYXJyYXk9JzUgMycvPgo8Y2lyY2xlIGN4PSc2MCcgY3k9JzYwJyByPScxOCcgc3Ryb2tlPScjM2I4MmY2JyBzdHJva2Utd2lkdGg9JzInLz4KPGxpbmUgeDE9JzE0JyB5MT0nNjAnIHgyPScxMDYnIHkyPSc2MCcgc3Ryb2tlPScjM2I4MmY2JyBzdHJva2Utd2lkdGg9JzEnIG9wYWNpdHk9Jy40Jy8+CjxsaW5lIHgxPSc2MCcgeTE9JzE0JyB4Mj0nNjAnIHkyPScxMDYnIHN0cm9rZT0nIzNiODJmNicgc3Ryb2tlLXdpZHRoPScxJyBvcGFjaXR5PScuNCcvPgo8Y2lyY2xlIGN4PSc2MCcgY3k9JzYwJyByPSc1JyBmaWxsPScjM2I4MmY2Jy8+CjxyZWN0IHg9JzUyJyB5PSc4JyB3aWR0aD0nMTYnIGhlaWdodD0nNScgcng9JzInIGZpbGw9JyMzYjgyZjYnIG9wYWNpdHk9Jy42Jy8+Cjwvc3ZnPg==" alt="Cleanroom">
-      <div class="skill-name">SU-8, Plasma RIE, PDMS</div>
-    </div>
-
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI2Y1ZjNmZicvPgo8cGF0aCBkPSdNMTIgNjAgUTI4IDMwIDQ0IDYwIFE2MCA5MCA3NiA2MCBROTIgMzAgMTA4IDUwJyBzdHJva2U9JyM3YzNhZWQnIHN0cm9rZS13aWR0aD0nMy41JyBzdHJva2UtbGluZWNhcD0ncm91bmQnLz4KPHBhdGggZD0nTTEyIDc1IFEzMiA1MCA1MiA3NSBRNzIgMTAwIDkyIDc1JyBzdHJva2U9JyM3YzNhZWQnIHN0cm9rZS13aWR0aD0nMicgc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBvcGFjaXR5PScuNScvPgo8cGF0aCBkPSdNMTIgNDUgUTMyIDIwIDUyIDQ1IFE3MiA3MCA5MiA0NScgc3Ryb2tlPScjN2MzYWVkJyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgb3BhY2l0eT0nLjUnLz4KPGNpcmNsZSBjeD0nNDQnIGN5PSc2MCcgcj0nNicgZmlsbD0nIzdjM2FlZCcgb3BhY2l0eT0nLjgnLz4KPGNpcmNsZSBjeD0nNzYnIGN5PSc2MCcgcj0nNCcgZmlsbD0nIzdjM2FlZCcgb3BhY2l0eT0nLjYnLz4KPGNpcmNsZSBjeD0nMjgnIGN5PSc0NScgcj0nMycgZmlsbD0nIzdjM2FlZCcgb3BhY2l0eT0nLjQnLz4KPC9zdmc+" alt="Micro-PIV">
-      <div class="skill-name">Micro-PIV, Optical Diagnostics</div>
-    </div>
-
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nIzA4MTQzMCcvPgo8IS0tIEF4ZXMgLS0+CjxsaW5lIHgxPScxMicgeTE9JzkwJyB4Mj0nMTA0JyB5Mj0nOTAnIHN0cm9rZT0ncmdiYSgyNTUsMjU1LDI1NSwwLjQpJyBzdHJva2Utd2lkdGg9JzEuNScvPgo8bGluZSB4MT0nMTInIHkxPScxNicgeDI9JzEyJyB5Mj0nOTAnIHN0cm9rZT0ncmdiYSgyNTUsMjU1LDI1NSwwLjQpJyBzdHJva2Utd2lkdGg9JzEuNScvPgo8IS0tIEF4aXMgbGFiZWxzIC0tPgo8dGV4dCB4PSc1NicgeT0nMTA4JyBmb250LWZhbWlseT0nQXJpYWwsc2Fucy1zZXJpZicgZm9udC1zaXplPSc4JyBmaWxsPSdyZ2JhKDI1NSwyNTUsMjU1LDAuNSknIHRleHQtYW5jaG9yPSdtaWRkbGUnPlosJyAoT2htKTwvdGV4dD4KPHRleHQgeD0nNicgeT0nNTUnIGZvbnQtZmFtaWx5PSdBcmlhbCxzYW5zLXNlcmlmJyBmb250LXNpemU9JzcuNScgZmlsbD0ncmdiYSgyNTUsMjU1LDI1NSwwLjUpJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyB0cmFuc2Zvcm09J3JvdGF0ZSgtOTAsNiw1NSknPi1aIjwvdGV4dD4KPCEtLSBTZW1pY2lyY2xlIChhcmMpIGZvciBSQyBlbGVtZW50IC0tPgo8cGF0aCBkPSdNMTIsMTAgQTMyLDMyIDAgMCAxIDc2LDkwJyBzdHJva2U9JyM0NGRkYmInIHN0cm9rZS13aWR0aD0nMi44JyBzdHJva2UtbGluZWNhcD0ncm91bmQnIG9wYWNpdHk9Jy45NScvPgo8IS0tIFdhcmJ1cmcgdGFpbCAtLT4KPHBhdGggZD0nTTc2LDkwIEw5Myw3MyBMOTgsNjggTDEwMiw2NCcgc3Ryb2tlPScjNGRkYmZiJyBzdHJva2Utd2lkdGg9JzIuNScgc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBvcGFjaXR5PScuOCcvPgo8IS0tIFBvaW50IG9uIHNlbWljaXJjbGUgLS0+CjxjaXJjbGUgY3g9JzQ0JyBjeT0nMjUnIHI9JzQnIGZpbGw9JyM0NGRkYmInIG9wYWNpdHk9Jy44Jy8+CjxjaXJjbGUgY3g9JzEyJyBjeT0nOTAnIHI9JzMnIGZpbGw9J3doaXRlJyBvcGFjaXR5PScuNicvPgo8Y2lyY2xlIGN4PSc3NicgY3k9JzkwJyByPSczJyBmaWxsPSd3aGl0ZScgb3BhY2l0eT0nLjYnLz4KPCEtLSBUaXRsZSAtLT4KPHRleHQgeD0nOTYnIHk9JzI4JyBmb250LWZhbWlseT0nQXJpYWwgQmxhY2ssc2Fucy1zZXJpZicgZm9udC1zaXplPScxMCcgZmlsbD0nIzQ0ZGRiYicgdGV4dC1hbmNob3I9J2VuZCcgZm9udC13ZWlnaHQ9JzkwMCc+RUlTPC90ZXh0Pgo8dGV4dCB4PSc5NicgeT0nNDAnIGZvbnQtZmFtaWx5PSdBcmlhbCxzYW5zLXNlcmlmJyBmb250LXNpemU9JzcnIGZpbGw9J3JnYmEoNjgsMjIxLDE4NywwLjcpJyB0ZXh0LWFuY2hvcj0nZW5kJz5OeXF1aXN0PC90ZXh0Pgo8L3N2Zz4=" alt="EIS Nyquist">
-      <div class="skill-name">Electrodeposition, CV, EIS</div>
-    </div>
-
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI2ZmZmJlYicvPgo8cmVjdCB4PScxNCcgeT0nMzQnIHdpZHRoPSc4MCcgaGVpZ2h0PSc1Micgcng9JzcnIHN0cm9rZT0nI2Q5NzcwNicgc3Ryb2tlLXdpZHRoPSczJyBmaWxsPScjZmVmM2M3Jy8+CjxyZWN0IHg9Jzk0JyB5PSc0OCcgd2lkdGg9JzE0JyBoZWlnaHQ9JzI0JyByeD0nNCcgc3Ryb2tlPScjZDk3NzA2JyBzdHJva2Utd2lkdGg9JzIuNScgZmlsbD0nI2ZkZTY4YScvPgo8cmVjdCB4PScyNCcgeT0nNDQnIHdpZHRoPScyMCcgaGVpZ2h0PSczMicgcng9JzMnIGZpbGw9JyNkOTc3MDYnIG9wYWNpdHk9Jy44Jy8+CjxyZWN0IHg9JzUyJyB5PSc0NCcgd2lkdGg9JzE0JyBoZWlnaHQ9JzMyJyByeD0nMycgZmlsbD0nI2Q5NzcwNicgb3BhY2l0eT0nLjU1Jy8+CjxyZWN0IHg9Jzc0JyB5PSc0NCcgd2lkdGg9JzgnIGhlaWdodD0nMzInIHJ4PSczJyBmaWxsPScjZDk3NzA2JyBvcGFjaXR5PScuMzUnLz4KPGxpbmUgeDE9JzMwJyB5MT0nNjAnIHgyPSczOCcgeTI9JzYwJyBzdHJva2U9J3doaXRlJyBzdHJva2Utd2lkdGg9JzIuNScgc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJy8+CjxsaW5lIHgxPSczNCcgeTE9JzU0JyB4Mj0nMzQnIHkyPSc2Nicgc3Ryb2tlPSd3aGl0ZScgc3Ryb2tlLXdpZHRoPScyLjUnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcvPgo8bGluZSB4MT0nNTUnIHkxPSc2MCcgeDI9JzYzJyB5Mj0nNjAnIHN0cm9rZT0nd2hpdGUnIHN0cm9rZS13aWR0aD0nMi41JyBzdHJva2UtbGluZWNhcD0ncm91bmQnLz4KPC9zdmc+" alt="Battery Modeling">
-      <div class="skill-name">Battery Modeling, GITT</div>
-    </div>
-
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI2YwZjlmZicvPgo8cmVjdCB4PScxMicgeT0nMTInIHdpZHRoPSc5NicgaGVpZ2h0PSc5Nicgcng9JzUnIHN0cm9rZT0nIzAzNjlhMScgc3Ryb2tlLXdpZHRoPScyJy8+CjxsaW5lIHgxPScxMicgeTE9JzQ0JyB4Mj0nMTA4JyB5Mj0nNDQnIHN0cm9rZT0nIzAzNjlhMScgc3Ryb2tlLXdpZHRoPScxLjInLz4KPGxpbmUgeDE9JzEyJyB5MT0nNzYnIHgyPScxMDgnIHkyPSc3Nicgc3Ryb2tlPScjMDM2OWExJyBzdHJva2Utd2lkdGg9JzEuMicvPgo8bGluZSB4MT0nNDQnIHkxPScxMicgeDI9JzQ0JyB5Mj0nMTA4JyBzdHJva2U9JyMwMzY5YTEnIHN0cm9rZS13aWR0aD0nMS4yJy8+CjxyZWN0IHg9JzU0JyB5PSc1Micgd2lkdGg9JzI4JyBoZWlnaHQ9JzE4JyByeD0nMicgc3Ryb2tlPScjZTExZDQ4JyBzdHJva2Utd2lkdGg9JzInLz4KPGNpcmNsZSBjeD0nMjgnIGN5PScyOCcgcj0nOCcgc3Ryb2tlPScjMDM2OWExJyBzdHJva2Utd2lkdGg9JzInLz4KPGxpbmUgeDE9JzI4JyB5MT0nMTInIHgyPScyOCcgeTI9JzQ0JyBzdHJva2U9JyMwMzY5YTEnIHN0cm9rZS13aWR0aD0nMScgc3Ryb2tlLWRhc2hhcnJheT0nMyAyJyBvcGFjaXR5PScuNScvPgo8bGluZSB4MT0nMTInIHkxPScyOCcgeDI9JzQ0JyB5Mj0nMjgnIHN0cm9rZT0nIzAzNjlhMScgc3Ryb2tlLXdpZHRoPScxJyBzdHJva2UtZGFzaGFycmF5PSczIDInIG9wYWNpdHk9Jy41Jy8+Cjx0ZXh0IHg9JzY4JyB5PSc2NScgZm9udC1mYW1pbHk9J0FyaWFsLHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nOScgZmlsbD0nI2UxMWQ0OCcgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC13ZWlnaHQ9JzcwMCc+4oyAODwvdGV4dD4KPC9zdmc+" alt="DFMEA GDT">
-      <div class="skill-name">DFMEA, GD&amp;T, eBOM</div>
-    </div>
-
-    <div class="skill-card">
-      <img class="skill-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJyBmaWxsPSdub25lJz4KPHJlY3Qgd2lkdGg9JzEyMCcgaGVpZ2h0PScxMjAnIHJ4PScxNicgZmlsbD0nI2YwZmRmNCcvPgo8cmVjdCB4PScxNCcgeT0nMTQnIHdpZHRoPSc5MicgaGVpZ2h0PSc5Micgcng9JzUnIGZpbGw9JyMxRDZGNDInIG9wYWNpdHk9Jy4wOCcgc3Ryb2tlPScjMUQ2RjQyJyBzdHJva2Utd2lkdGg9JzInLz4KPGxpbmUgeDE9JzE0JyB5MT0nNDYnIHgyPScxMDYnIHkyPSc0Nicgc3Ryb2tlPScjMUQ2RjQyJyBzdHJva2Utd2lkdGg9JzEnIG9wYWNpdHk9Jy40Jy8+CjxsaW5lIHgxPScxNCcgeTE9Jzc4JyB4Mj0nMTA2JyB5Mj0nNzgnIHN0cm9rZT0nIzFENkY0Micgc3Ryb2tlLXdpZHRoPScxJyBvcGFjaXR5PScuNCcvPgo8bGluZSB4MT0nNDYnIHkxPScxNCcgeDI9JzQ2JyB5Mj0nMTA2JyBzdHJva2U9JyMxRDZGNDInIHN0cm9rZS13aWR0aD0nMScgb3BhY2l0eT0nLjQnLz4KPHJlY3QgeD0nNTYnIHk9JzY0JyB3aWR0aD0nMTQnIGhlaWdodD0nNDInIHJ4PScyJyBmaWxsPScjMUQ2RjQyJyBvcGFjaXR5PScuNycvPgo8cmVjdCB4PSc3NicgeT0nNDYnIHdpZHRoPScxNCcgaGVpZ2h0PSc2MCcgcng9JzInIGZpbGw9JyMxRDZGNDInIG9wYWNpdHk9Jy45Jy8+CjxyZWN0IHg9JzM2JyB5PSc3Nicgd2lkdGg9JzE0JyBoZWlnaHQ9JzMwJyByeD0nMicgZmlsbD0nIzFENkY0Micgb3BhY2l0eT0nLjUnLz4KPHRleHQgeD0nNjAnIHk9JzM2JyBmb250LWZhbWlseT0nQXJpYWwgQmxhY2ssc2Fucy1zZXJpZicgZm9udC1zaXplPScxMScgZmlsbD0nIzFENkY0MicgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC13ZWlnaHQ9JzgwMCc+VEVBPC90ZXh0Pgo8L3N2Zz4=" alt="TEA BatPaC">
-      <div class="skill-name">TEA, BatPaC, Scale-Up</div>
+    <div class="skill-tile">
+      <img src="images/logos/comsol-logo.svg" alt="COMSOL">
+      <div class="skill-tile-name">COMSOL</div>
     </div>
 
   </div>
