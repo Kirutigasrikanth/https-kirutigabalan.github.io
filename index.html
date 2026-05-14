@@ -323,6 +323,30 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 .contact-val:hover{color:var(--accent)}
 .contact-note{font-size:14px;color:var(--text-2);line-height:1.7;max-width:500px}
 
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--accent);
+  z-index:400;border-radius:0 2px 2px 0;transition:width .08s linear;pointer-events:none}
+
+/* ── CUSTOM CURSOR ── */
+#cursor-dot,#cursor-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .3s}
+#cursor-dot{width:7px;height:7px;background:var(--accent)}
+#cursor-ring{width:34px;height:34px;border:1.5px solid var(--accent);opacity:0;
+  transition:width .22s var(--ease),height .22s var(--ease),opacity .3s,border-color .2s}
+body.has-cursor #cursor-dot,body.has-cursor #cursor-ring{opacity:1}
+body.cursor-hover #cursor-ring{width:52px;height:52px;opacity:.35;border-color:var(--accent)}
+@media(hover:none){#cursor-dot,#cursor-ring{display:none}}
+
+/* ── NAV SCROLL STATE ── */
+nav{transition:background .3s,box-shadow .3s,border-color .3s}
+nav.nav-scrolled{background:rgba(244,245,251,0.98)!important;
+  box-shadow:0 2px 24px rgba(0,0,0,0.07);border-bottom-color:var(--border)!important}
+
+/* ── CARD 3D TILT ── */
+.proj-card{transform-style:preserve-3d;will-change:transform;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)!important}
+.entity-card{transform-style:preserve-3d;will-change:transform}
+
 /* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);position:relative;z-index:1;
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -350,6 +374,10 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 </style>
 </head>
 <body>
+
+<div id="scroll-progress"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <!-- ═══════════════════════ BACKGROUND CANVAS ═══════════════════════ -->
 <canvas id="bg-canvas"></canvas>
@@ -1353,6 +1381,98 @@ function handleOverlayClick(e) {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+<script>
+/* ═══════════ SCROLL PROGRESS BAR ═══════════ */
+const _prog = document.getElementById('scroll-progress');
+function _updateProg() {
+  const s = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
+  _prog.style.width = (h > 0 ? (s / h * 100) : 0) + '%';
+}
+window.addEventListener('scroll', _updateProg, {passive:true});
+
+/* ═══════════ CUSTOM CURSOR ═══════════ */
+(function(){
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+  // Only enable on true pointer devices
+  if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  document.body.classList.add('has-cursor');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  (function animRing(){
+    rx += (mx-rx)*0.13; ry += (my-ry)*0.13;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  const hoverEls = 'a,button,.proj-card,.entity-card,.carousel-btn,.m-close,.contact-social-link';
+  document.querySelectorAll(hoverEls).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+})();
+
+/* ═══════════ NAV GLASS ON SCROLL ═══════════ */
+const _nav = document.getElementById('main-nav');
+function _updateNavScroll(){
+  _nav.classList.toggle('nav-scrolled', window.scrollY > 30);
+}
+window.addEventListener('scroll', _updateNavScroll, {passive:true});
+
+/* ═══════════ CARD 3D TILT ═══════════ */
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `perspective(700px) rotateY(${x*12}deg) rotateX(${-y*9}deg) scale(1.03)`;
+    card.style.boxShadow = `${-x*14}px ${-y*10}px 32px rgba(0,0,0,0.14)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+  });
+});
+document.querySelectorAll('.entity-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `perspective(700px) rotateY(${x*10}deg) rotateX(${-y*8}deg) translateY(-6px)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+
+/* ═══════════ NUMBER COUNTER ═══════════ */
+function _countUp(el, target, suffix) {
+  let start = null;
+  const dur = 1400;
+  const ease = t => 1 - Math.pow(1-t, 3);
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    el.textContent = Math.round(ease(p) * target);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+const _statObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const span = entry.target.querySelector('.stat-n span');
+    if (!span || span.dataset.counted) return;
+    span.dataset.counted = '1';
+    const val = parseInt(span.textContent, 10);
+    if (!isNaN(val)) _countUp(span, val);
+  });
+}, {threshold: 0.5});
+document.querySelectorAll('.stat').forEach(s => _statObs.observe(s));
 </script>
 
 <script>
