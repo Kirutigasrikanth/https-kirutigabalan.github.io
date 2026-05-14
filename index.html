@@ -102,41 +102,7 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 
 /* ── HERO ── */
 #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding-top:calc(56px + clamp(48px,8vh,80px));padding-bottom:clamp(48px,8vh,80px);
-  position:relative;overflow:hidden}
-.hero-bg-vid{
-  position:absolute;
-  top:50%;left:50%;
-  min-width:100%;min-height:100%;
-  width:auto;height:auto;
-  transform:translate(-50%,-50%);
-  object-fit:cover;
-  opacity:1;
-  z-index:0;
-  pointer-events:none}
-.hero-bg-overlay{position:absolute;inset:0;z-index:0;
-  background:linear-gradient(to bottom,
-    rgba(5,5,18,0.62) 0%,
-    rgba(5,5,18,0.45) 40%,
-    rgba(5,5,18,0.45) 60%,
-    rgba(5,5,18,0.72) 100%);
-  pointer-events:none}
-.hero-content{position:relative;z-index:1}
-
-/* ── HERO TEXT ON VIDEO ── */
-#home .hero-eyebrow{color:#f5a623}
-#home .hero-eyebrow::before{background:#f5a623}
-#home .hero-name{color:#ffffff}
-#home .hero-role{color:rgba(255,255,255,0.75)}
-#home .hero-role-prefix{color:rgba(255,255,255,0.55)}
-#home .hero-sub{color:rgba(255,255,255,0.72)}
-#home .btn-ghost{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.30);color:#fff}
-#home .btn-ghost:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.55)}
-#home .stats-bar{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);backdrop-filter:blur(12px)}
-#home .stat{background:transparent;border-right-color:rgba(255,255,255,0.12)}
-#home .stat-n{color:#fff}
-#home .stat-l{color:rgba(255,255,255,0.45)}
-#home .scroll-nudge{color:rgba(255,255,255,0.40)}
+  padding-top:calc(56px + clamp(48px,8vh,80px));padding-bottom:clamp(48px,8vh,80px)}
 .hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
   color:var(--accent);margin-bottom:clamp(20px,3vh,32px);
   display:flex;align-items:center;gap:8px;animation:up .7s var(--ease) .05s both}
@@ -591,33 +557,32 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 <!-- ═══════════════════════ HOME ═══════════════════════ -->
 <section id="home">
-  <!-- Full-bleed background video -->
-  <video class="hero-bg-vid" autoplay loop muted playsinline>
-    <source src="images/microfluidic.mp4" type="video/mp4">
-  </video>
-  <div class="hero-bg-overlay"></div>
-
-  <div class="hero-content">
-    <div class="hero-eyebrow">Engineering Portfolio</div>
-    <h1 class="hero-name">Kirutiga<br><em>Balan</em></h1>
-    <div class="hero-role">
-      <span class="hero-role-prefix">I am a</span>
-      <span id="typed-role"></span><span id="typed-cursor"></span>
-    </div>
-    <p class="hero-sub">6 years of graduate research &amp; industry experience — built from first principles, validated by data.</p>
-    <div class="hero-cta">
-      <a class="btn-primary" href="https://www.linkedin.com/in/kirutiga-balan" target="_blank">
-        Connect with me
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn-ghost" href="resume.pdf" download>
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7.5M6.5 8.5l-2.5-2.5M6.5 8.5l2.5-2.5M1.5 11.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Download Resume
-      </a>
-    </div>
+  <div class="hero-eyebrow">Engineering Portfolio</div>
+  <h1 class="hero-name">Kirutiga<br><em>Balan</em></h1>
+  <div class="hero-role">
+    <span class="hero-role-prefix">I am a</span>
+    <span id="typed-role"></span><span id="typed-cursor"></span>
+  </div>
+  <p class="hero-sub">6 years of graduate research &amp; industry experience — built from first principles, validated by data.</p>
+  <div class="hero-cta">
+    <a class="btn-primary" href="https://www.linkedin.com/in/kirutiga-balan" target="_blank">
+      Connect with me
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="btn-ghost" href="resume.pdf" download>
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7.5M6.5 8.5l-2.5-2.5M6.5 8.5l2.5-2.5M1.5 11.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download Resume
+    </a>
   </div>
 
-  <div class="stats-bar" style="position:relative;z-index:1">
+  <div class="hero-video">
+    <video autoplay loop muted playsinline>
+      <source src="videos/pivflow.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-cap">Micro-PIV vortex flow diagnostics · Magnetically enhanced ion transport · UT Austin</div>
+  </div>
+
+  <div class="stats-bar">
     <div class="stat"><div class="stat-n"><span>6</span> yrs</div><div class="stat-l">Research &amp; industry</div></div>
     <div class="stat"><div class="stat-n"><span>3</span> yrs</div><div class="stat-l">Class 100 cleanroom</div></div>
     <div class="stat"><div class="stat-n"><span>100</span>+</div><div class="stat-l">Devices fabricated</div></div>
@@ -625,7 +590,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     <div class="stat"><div class="stat-n">#<span>6</span></div><div class="stat-l">SAE SUPRA · 112 teams</div></div>
   </div>
 
-  <div class="scroll-nudge" style="z-index:1">
+  <div class="scroll-nudge">
     scroll to see work
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 11l5 3 5-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
@@ -664,7 +629,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
     <div class="proj-card" onclick="openModal('proj-magnet')" style="cursor:pointer">
       <div class="proj-thumb" style="position:relative">
-        <img src="images/dendrite_radial.jpg" alt="Dendrite growth comparison — without and with magnet at t=500s">
+        <img src="images/microfluidic.gif" alt="Micro-PIV vortex flow — magnetically enhanced ion transport">
         <div class="proj-overlay"><div class="proj-overlay-chip">Explore</div><div class="proj-overlay-impact">1.25× ion transport efficiency · 50% dendrite reduction · micro-PIV validated</div></div>
       </div>
       <div class="proj-info"><div class="proj-title">Magnetically Enhanced Electrochemical Extraction</div><div class="proj-tag">Preliminary testing in a radial cell</div><div class="proj-tags"><span class="proj-ptag">Micro-PIV</span><span class="proj-ptag">Electrochemistry</span><span class="proj-ptag">DOE</span></div></div>
@@ -1215,7 +1180,7 @@ const MODALS = {
   'proj-magnet': {
     title: 'Magnetically Enhanced Electrochemical Extraction',
     date: 'Experimental Research · UT Austin Aerospace · 2022–2025',
-    media: 'images/cleanroom_wetbench.jpeg',
+    media: 'images/dendrite_radial.jpg',
     bullets: [
       'Studied copper electrodeposition from 0.1 M CuSO₄ in custom PDMS microfluidic cells under applied magnetic fields.',
       'Achieved 125× improvement in copper extraction efficiency via magnetically induced MHD convection.',
