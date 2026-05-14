@@ -54,10 +54,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;
 main{position:relative;z-index:1}
 section{padding:clamp(72px,10vh,120px) clamp(16px,5vw,64px);max-width:1200px;margin:0 auto}
 section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
-.sec-label{font-size:clamp(32px,5vw,56px);font-weight:900;letter-spacing:-.04em;
+.sec-label{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-.03em;
   text-transform:none;color:var(--accent);line-height:1;
-  margin-bottom:clamp(24px,4vh,44px);display:block}
+  margin-bottom:clamp(24px,4vh,44px);display:block;text-align:center}
 .sec-label::before{content:none}
+
+/* ── BACKGROUND FLOATING ICONS ── */
+#bg-icons{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-icon{position:absolute;opacity:0.07;color:var(--accent)}
+@keyframes bgFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-22px) rotate(180deg)}}
+@keyframes bgDrift{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(16px) rotate(-150deg)}}
+@keyframes bgSway{0%,100%{transform:translateX(0) rotate(0deg)}50%{transform:translateX(14px) rotate(90deg)}}
+@keyframes bgSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* ── HERO ── */
 #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
@@ -115,7 +123,7 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 
 /* ── ABOUT ── */
 #about .about-grid{display:grid;grid-template-columns:1fr auto;gap:clamp(32px,6vw,80px);align-items:start}
-.about-body{font-size:clamp(14.5px,1.6vw,16.5px);color:var(--text-2);line-height:1.85}
+.about-body{font-size:clamp(15px,1.7vw,17px);color:var(--text-2);line-height:1.9;text-align:justify}
 .about-body p+p{margin-top:18px}
 .about-body strong{color:var(--text);font-weight:600}
 .about-photo{width:clamp(180px,22vw,280px);aspect-ratio:3/4;border-radius:20px;
@@ -366,6 +374,62 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   <a href="#home" onclick="toggleMenu()">Home</a>
   <a href="#work" onclick="toggleMenu()">Work</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div id="bg-icons" aria-hidden="true">
+
+  <!-- Atom -->
+  <svg class="bg-icon" style="width:90px;top:8%;left:3%;animation:bgFloat 9s ease-in-out infinite" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2">
+    <ellipse cx="40" cy="40" rx="38" ry="16"/><ellipse cx="40" cy="40" rx="38" ry="16" transform="rotate(60 40 40)"/><ellipse cx="40" cy="40" rx="38" ry="16" transform="rotate(120 40 40)"/><circle cx="40" cy="40" r="4" fill="currentColor"/>
+  </svg>
+
+  <!-- Gear -->
+  <svg class="bg-icon" style="width:70px;top:22%;right:4%;animation:bgSpin 20s linear infinite" viewBox="0 0 80 80" fill="currentColor">
+    <path d="M40 26a14 14 0 1 1 0 28 14 14 0 0 1 0-28zm0 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM36 6h8l1 7a22 22 0 0 1 5.3 2.2l5.9-3.9 5.6 5.7-3.9 5.9A22 22 0 0 1 60 29l7 1v8l-7 1a22 22 0 0 1-2.1 5.2l3.9 5.9-5.6 5.7-5.9-3.9A22 22 0 0 1 45 53l-1 7h-8l-1-7a22 22 0 0 1-5.2-2.1l-5.9 3.9-5.7-5.7 3.9-5.9A22 22 0 0 1 20 39l-7-1v-8l7-1a22 22 0 0 1 2.1-5.2l-3.9-5.9 5.7-5.7 5.9 3.9A22 22 0 0 1 35 14z"/>
+  </svg>
+
+  <!-- Flask -->
+  <svg class="bg-icon" style="width:60px;top:45%;left:2%;animation:bgDrift 11s ease-in-out infinite" viewBox="0 0 60 80" fill="none" stroke="currentColor" stroke-width="3">
+    <path d="M20 4h20M22 4v28L6 68h48L38 32V4"/><line x1="16" y1="54" x2="44" y2="54"/><circle cx="34" cy="62" r="3" fill="currentColor"/><circle cx="22" cy="58" r="2" fill="currentColor"/>
+  </svg>
+
+  <!-- Hexagon / molecule -->
+  <svg class="bg-icon" style="width:80px;top:68%;right:3%;animation:bgFloat 13s ease-in-out infinite 2s" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+    <polygon points="40,6 70,22 70,58 40,74 10,58 10,22"/><circle cx="40" cy="6" r="4" fill="currentColor"/><circle cx="70" cy="22" r="4" fill="currentColor"/><circle cx="70" cy="58" r="4" fill="currentColor"/><circle cx="40" cy="74" r="4" fill="currentColor"/><circle cx="10" cy="58" r="4" fill="currentColor"/><circle cx="10" cy="22" r="4" fill="currentColor"/>
+  </svg>
+
+  <!-- Battery -->
+  <svg class="bg-icon" style="width:64px;top:14%;left:48%;animation:bgSway 10s ease-in-out infinite 1s" viewBox="0 0 64 80" fill="none" stroke="currentColor" stroke-width="3">
+    <rect x="4" y="20" width="56" height="40" rx="5"/><rect x="22" y="12" width="20" height="8" rx="2"/><line x1="32" y1="32" x2="32" y2="48"/><line x1="24" y1="40" x2="40" y2="40"/>
+  </svg>
+
+  <!-- Sine / EIS wave -->
+  <svg class="bg-icon" style="width:100px;top:55%;left:50%;animation:bgDrift 14s ease-in-out infinite 3s" viewBox="0 0 100 50" fill="none" stroke="currentColor" stroke-width="2.5">
+    <path d="M0 25 Q12 5 25 25 Q38 45 50 25 Q62 5 75 25 Q88 45 100 25"/>
+    <line x1="0" y1="25" x2="100" y2="25" stroke-dasharray="3 4" opacity=".4"/>
+  </svg>
+
+  <!-- Microchip -->
+  <svg class="bg-icon" style="width:72px;top:80%;left:20%;animation:bgSpin 30s linear infinite reverse" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="18" y="18" width="36" height="36" rx="4"/>
+    <line x1="26" y1="4" x2="26" y2="18"/><line x1="36" y1="4" x2="36" y2="18"/><line x1="46" y1="4" x2="46" y2="18"/>
+    <line x1="26" y1="54" x2="26" y2="68"/><line x1="36" y1="54" x2="36" y2="68"/><line x1="46" y1="54" x2="46" y2="68"/>
+    <line x1="4" y1="26" x2="18" y2="26"/><line x1="4" y1="36" x2="18" y2="36"/><line x1="4" y1="46" x2="18" y2="46"/>
+    <line x1="54" y1="26" x2="68" y2="26"/><line x1="54" y1="36" x2="68" y2="36"/><line x1="54" y1="46" x2="68" y2="46"/>
+    <rect x="26" y="26" width="20" height="20" rx="2" fill="currentColor" opacity=".15"/>
+  </svg>
+
+  <!-- Electrode / droplet -->
+  <svg class="bg-icon" style="width:52px;top:35%;right:18%;animation:bgFloat 8s ease-in-out infinite 4s" viewBox="0 0 52 80" fill="none" stroke="currentColor" stroke-width="2.5">
+    <path d="M26 6 Q46 30 46 46 A20 20 0 0 1 6 46 Q6 30 26 6Z"/>
+    <line x1="18" y1="46" x2="34" y2="46"/><line x1="26" y1="38" x2="26" y2="54"/>
+  </svg>
+
+  <!-- Atom small -->
+  <svg class="bg-icon" style="width:55px;top:88%;right:30%;animation:bgFloat 12s ease-in-out infinite 6s" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2">
+    <ellipse cx="40" cy="40" rx="38" ry="14"/><ellipse cx="40" cy="40" rx="38" ry="14" transform="rotate(60 40 40)"/><ellipse cx="40" cy="40" rx="38" ry="14" transform="rotate(120 40 40)"/><circle cx="40" cy="40" r="4" fill="currentColor"/>
+  </svg>
+
 </div>
 
 <main>
