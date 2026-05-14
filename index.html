@@ -104,16 +104,39 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
   padding-top:calc(56px + clamp(48px,8vh,80px));padding-bottom:clamp(48px,8vh,80px);
   position:relative;overflow:hidden}
-.hero-bg-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  z-index:0;opacity:0.22;pointer-events:none}
+.hero-bg-vid{
+  position:absolute;
+  top:50%;left:50%;
+  min-width:100%;min-height:100%;
+  width:auto;height:auto;
+  transform:translate(-50%,-50%);
+  object-fit:cover;
+  opacity:1;
+  z-index:0;
+  pointer-events:none}
 .hero-bg-overlay{position:absolute;inset:0;z-index:0;
   background:linear-gradient(to bottom,
-    rgba(244,245,251,0.72) 0%,
-    rgba(244,245,251,0.50) 40%,
-    rgba(244,245,251,0.50) 60%,
-    rgba(244,245,251,0.88) 100%);
+    rgba(5,5,18,0.62) 0%,
+    rgba(5,5,18,0.45) 40%,
+    rgba(5,5,18,0.45) 60%,
+    rgba(5,5,18,0.72) 100%);
   pointer-events:none}
 .hero-content{position:relative;z-index:1}
+
+/* ── HERO TEXT ON VIDEO ── */
+#home .hero-eyebrow{color:#f5a623}
+#home .hero-eyebrow::before{background:#f5a623}
+#home .hero-name{color:#ffffff}
+#home .hero-role{color:rgba(255,255,255,0.75)}
+#home .hero-role-prefix{color:rgba(255,255,255,0.55)}
+#home .hero-sub{color:rgba(255,255,255,0.72)}
+#home .btn-ghost{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.30);color:#fff}
+#home .btn-ghost:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.55)}
+#home .stats-bar{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);backdrop-filter:blur(12px)}
+#home .stat{background:transparent;border-right-color:rgba(255,255,255,0.12)}
+#home .stat-n{color:#fff}
+#home .stat-l{color:rgba(255,255,255,0.45)}
+#home .scroll-nudge{color:rgba(255,255,255,0.40)}
 .hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
   color:var(--accent);margin-bottom:clamp(20px,3vh,32px);
   display:flex;align-items:center;gap:8px;animation:up .7s var(--ease) .05s both}
