@@ -1,0 +1,36 @@
+# Large GIF source files — converted to .mp4 for the site
+videos/pivflow.gif
+images/microfluidic.gif
+videos/pivaug80002.mp4
+
+# Unused raw images
+images/C5142A53-A044-49C3-BEB9-D9B2116EA177.JPG
+images/IMG_2812.jpg
+
+# CAD / engineering source files (STL kept — used by 3D viewer)
+images/linearchannel (2).DWG
+
+# macOS / Windows junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Old duplicates at root
+UT-logo.png
+amrita-racing.png
+
+# Source logo files (intermediate build artifacts — card PNGs are the actual outputs)
+images/logos/*-official.*
+images/logos/amrita.png
+images/logos/amrita_racing.png
+images/logos/canival.png
+images/logos/dgist.png
+images/logos/ut_austin.png
+images/logos/dgist-official.png
+images/logos/iitb-official.png
+images/logos/ut-official.png
+images/logos/amrita-official.png
+
+# Raw logo source files at root
+DGIST-logo.png
+electra-logo.png
