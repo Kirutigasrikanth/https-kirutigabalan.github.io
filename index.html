@@ -1181,6 +1181,7 @@ const MODALS = {
     title: 'Magnetically Enhanced Electrochemical Extraction',
     date: 'Experimental Research · UT Austin Aerospace · 2022–2025',
     media: 'images/dendrite_radial.png',
+    media2: 'images/dendrite_phase.png',
     bullets: [
       'Studied copper electrodeposition from 0.1 M CuSO₄ in custom PDMS microfluidic cells under applied magnetic fields.',
       'Achieved 125× improvement in copper extraction efficiency via magnetically induced MHD convection.',
@@ -1336,7 +1337,8 @@ function openModal(id) {
       : '';
     body.innerHTML = `
       <div class="m-media"><img src="${d.media}" alt="${d.title}" ${mediaStyle}></div>
-      <ul class="m-bullets">${d.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
+      <ul class="m-bullets">${d.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+      ${d.media2 ? `<div style="grid-column:1/-1;margin-top:8px"><img src="${d.media2}" alt="${d.title} — phase diagram" style="width:100%;border-radius:13px;object-fit:contain;display:block;background:#f4f5fb;padding:8px"></div>` : ''}`;
   } else {
     body.style.gridTemplateColumns = '1fr';
     body.innerHTML = `<ul class="m-bullets">${d.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
