@@ -60,8 +60,7 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 .sec-label::before{content:none}
 
 /* ── BACKGROUND FLOATING ICONS ── */
-#bg-icons{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.bg-icon{position:absolute;opacity:0.08;color:var(--accent)}
+#bg-icons{display:none}
 @keyframes bgW1{
   0%  {transform:translate(0,0)      rotate(0deg)   scale(1)}
   20% {transform:translate(55px,-45px) rotate(72deg)  scale(1.08)}
@@ -834,16 +833,19 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
   function seed(){
     motifs.length = 0;
     const types = ['battery','chip','dendrite','cad'];
-    const cols = 5, rows = Math.ceil(H / 240);
+    const cols = 6, rows = Math.ceil(H / 200);
     for(let r=0; r<rows; r++){
       for(let c=0; c<cols; c++){
         motifs.push({
           type: types[(r*cols+c) % types.length],
-          x: (c+0.5)/cols * W + (Math.random()-.5)*90,
-          y: (r+0.5)/rows * H + (Math.random()-.5)*70,
-          scale: 0.85 + Math.random()*.9,
-          rot: (Math.random()-.5)*0.55,
-          alpha: 0.18 + Math.random()*0.16
+          x: (c+0.5)/cols * W + (Math.random()-.5)*80,
+          y: (r+0.5)/rows * H + (Math.random()-.5)*60,
+          scale: 0.22 + Math.random() * 0.26,
+          rot:  (Math.random()-.5) * Math.PI * 2,
+          alpha: 0.10 + Math.random() * 0.10,
+          vx:   (Math.random()-.5) * 0.22,
+          vy:   (Math.random()-.5) * 0.16,
+          vrot: (Math.random()-.5) * 0.004
         });
       }
     }
@@ -985,33 +987,51 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
     ctx.restore();
   }
 
+  let rafId = null;
+
   function draw(){
     ctx.clearRect(0,0,W,H);
-    seed();
     motifs.forEach(m=>{
+      // drift
+      m.x   += m.vx;
+      m.y   += m.vy;
+      m.rot += m.vrot;
+      // wrap around edges with padding
+      const pad = 60;
+      if(m.x < -pad)  m.x = W + pad;
+      if(m.x > W+pad) m.x = -pad;
+      if(m.y < -pad)  m.y = H + pad;
+      if(m.y > H+pad) m.y = -pad;
+
       const col = COLORS[m.type];
       ctx.save();
       ctx.globalAlpha = m.alpha;
-      ctx.translate(m.x,m.y);
+      ctx.translate(m.x, m.y);
       ctx.rotate(m.rot);
-      ctx.translate(-m.x,-m.y);
-      if(m.type==='battery')  drawBattery(ctx,m.x,m.y,m.scale,col);
-      else if(m.type==='chip') drawChip(ctx,m.x,m.y,m.scale,col);
+      ctx.translate(-m.x, -m.y);
+      if(m.type==='battery')       drawBattery(ctx,m.x,m.y,m.scale,col);
+      else if(m.type==='chip')     drawChip(ctx,m.x,m.y,m.scale,col);
       else if(m.type==='dendrite') drawDendrite(ctx,m.x,m.y,m.scale,col);
-      else drawCAD(ctx,m.x,m.y,m.scale,col);
+      else                         drawCAD(ctx,m.x,m.y,m.scale,col);
       ctx.restore();
     });
+    rafId = requestAnimationFrame(draw);
+  }
+
+  function start(){
+    if(rafId) cancelAnimationFrame(rafId);
+    draw();
   }
 
   window.addEventListener('resize',()=>{
-    W=canvas.width=window.innerWidth;
-    H=canvas.height=document.body.scrollHeight;
-    draw();
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = document.body.scrollHeight;
+    seed();
+    start();
   });
-  // Wait for fonts/layout, then draw
-  setTimeout(resize,300);
-  // Redraw when page content loads more
-  window.addEventListener('load',resize);
+
+  setTimeout(()=>{ resize(); seed(); start(); }, 300);
+  window.addEventListener('load', ()=>{ resize(); seed(); start(); });
 })();
 
 /* ═══════════ TYPEWRITER ═══════════ */
