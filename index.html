@@ -154,13 +154,13 @@ section:first-child{padding-top:calc(56px + clamp(72px,10vh,120px))}
 .stat-l{font-size:10.5px;color:var(--text-3);font-weight:500}
 
 /* ── ABOUT ── */
-#about .about-grid{display:grid;grid-template-columns:1fr auto;gap:clamp(32px,6vw,80px);align-items:stretch}
-.about-body{font-size:clamp(15px,1.7vw,17px);color:var(--text-2);line-height:1.9;text-align:justify}
+#about .about-grid{display:flex;flex-direction:column;align-items:center;gap:clamp(28px,4vh,48px)}
+.about-body{font-size:clamp(15px,1.7vw,17px);color:var(--text-2);line-height:1.9;text-align:justify;width:100%}
 .about-body p+p{margin-top:18px}
 .about-body strong{color:var(--text);font-weight:600}
-.about-photo{width:clamp(200px,24vw,300px);border-radius:20px;
-  overflow:hidden;border:1px solid var(--border);flex-shrink:0;min-height:100%}
-.about-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.about-photo{width:clamp(180px,22vw,280px);border-radius:20px;
+  overflow:hidden;border:1px solid var(--border);flex-shrink:0}
+.about-photo img{width:100%;height:auto;object-fit:contain;display:block}
 
 /* ── ENGINEERING PHILOSOPHY ── */
 .about-philosophy{margin-top:28px}
@@ -437,9 +437,7 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  #about .about-grid{grid-template-columns:1fr}
-  .about-photo{width:100%;min-height:260px;aspect-ratio:4/3;order:-1}
-  .about-photo img{object-position:center 20%}
+  .about-photo{width:clamp(140px,40vw,220px)}
 }
 @media(max-width:680px){
   .nav-center{display:none}
@@ -602,6 +600,9 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
 <section id="about">
   <div class="sec-label">About</div>
   <div class="about-grid">
+    <div class="about-photo reveal rd1">
+      <img src="images\electra_team.jpg" alt="Kirutiga Balan">
+    </div>
     <div class="about-body reveal">
       <p>I'm an electrochemical systems engineer with a background across cleanroom fabrication, multi-physics simulation, and reliability engineering.</p>
 
@@ -609,9 +610,6 @@ footer{border-top:1px solid var(--border);padding:22px clamp(16px,5vw,64px);posi
         <div class="about-philosophy-label">Engineering Philosophy</div>
         <p>My engineering journey has centered in finding answers to how mechanical systems fail and why, and identifying solutions to implement. Studying vehicle dynamics and structural behavior in undergrad got me thinking about how forces and flows concentrate in ways that eventually break things. Batteries were my entry point into electrochemistry, and dendrites were the first failure mode that genuinely fascinated me. They grow from ion concentration gradients and electric field nonuniformities at the electrode surface and can bring a cell to failure from the inside, which is exactly the kind of problem I wanted to work on. In graduate research I looked at magnetic-field-induced convection as a way to homogenize the diffusion layer and reduce the gradients driving that growth, which meant treating fluid mechanics, electrochemistry, and transport as one connected problem rather than three separate ones. At Electra I worked on the same failure mode from the process side, using DOE to screen electrolyte additives that changed deposition kinetics and reduced morphological instability. I have seen a lot of failures in research along my journey, and what I have learned is that dwelling on the outcome gets you nowhere. The useful question is always about the steps that led there, what the process was doing, what the data was showing, and where the assumption broke down, because that is where the prevention lives. A fabrication process without a physics model is just iteration, and a model without fabrication experience is just speculation. Building something, measuring it carefully, understanding what the data is telling you about the underlying physics, and then changing exactly one variable is how you actually make progress. That is what draws me to electrochemistry and process engineering as tools for solving fundamental problems across energy storage, critical material recovery, and reliable device manufacturing. The question underneath all of it is the one I started with &mdash; why does this system fail, what would it take to prevent it, and what is the fundamental root cause mechanism that drives the failure in the first place.</p>
       </div>
-    </div>
-    <div class="about-photo reveal rd1">
-      <img src="images/electra_team.jpg" alt="Kirutiga Balan" style="object-position:center 15%">
     </div>
   </div>
 </section>
